@@ -1,0 +1,73 @@
+<template>
+  <v-container>
+    <v-row
+      align="center"
+      justify="center"
+    >
+      <v-col cols="4">
+        <v-card
+          link
+          @click="navTo('digital-cookbook-list')"
+        >
+          <v-img
+            :src="cookbookImg"
+          />
+          <v-card-title>
+            Digital Cookbook
+          </v-card-title>
+        </v-card>
+      </v-col>
+      <v-col cols="4">
+        <v-card
+          link
+        >
+          <v-img
+            :src="gameImg"
+          />
+          <v-card-title>
+            Whack-A-Mole
+          </v-card-title>
+        </v-card>
+      </v-col>
+      <v-col cols="4">
+        <v-card
+          link
+        >
+          <v-img
+            :src="tttImg"
+          />
+          <v-card-title>
+            Tic-Tac-Toe
+          </v-card-title>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+<script>
+export default {
+  computed: {
+    backgroundImg () {
+      return require('../../../../public/img/side-projects.jpg')
+    },
+    cookbookImg () {
+      return require('../../../../public/img/cookbook.jpeg')
+    },
+    gameImg () {
+      return require('../../../../public/img/game.jpeg')
+    },
+    tttImg () {
+      return require('../../../../public/img/ttt.jpg')
+    }
+  },
+  mounted () {
+    console.log('this.$store,', this.$store)
+  },
+  methods: {
+    navTo (path, internal) {
+      let self = this
+      this.$store.dispatch('navTo', { path, internal, self })
+    }
+  }
+}
+</script>
