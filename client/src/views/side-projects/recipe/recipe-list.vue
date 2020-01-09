@@ -1,12 +1,30 @@
 <template>
   <div
     v-touch="{
-      left: () => swipe('Left'),
-      right: () => swipe('Right'),
       up: () => swipe('Up'),
       down: () => swipe('Down')
     }"
   >
+    <v-expand-transition>
+      <v-list
+        v-show="showMobileMenu && $vuetify.breakpoint.smAndDown"
+        class="mx-auto"
+        color="transparent"
+        flat
+      >
+        <v-list-item-group v-model="item" color="primary">
+          <v-list-item
+            v-for="(item, i) in items"
+            :key="i"
+          >
+            <v-list-item-content>
+              <v-list-item-title class="text-center" v-text="item" />
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-expand-transition>
+
     <v-tabs
       v-if="$vuetify.breakpoint.smAndUp"
       v-model="tab"
@@ -21,6 +39,7 @@
       </v-tab>
     </v-tabs>
 
+    <!-- TODO: Possibly change this to just show 1 recipe on mobile, and swipe left/right to grab a new one -->
     <v-container>
       <v-row
         justify="center"
@@ -47,17 +66,17 @@
               <v-btn
                 primary
                 text
-                @click="test()"
+                @click="navTo(RECIPE_PAGE_NAME, recipe._id)"
               >
                 Start Cooking
               </v-btn>
               <v-spacer />
+              <!-- When we click this, get the recipe info if we don't have it then, tack it onto the object -->
               <v-btn
                 icon
                 :loading="loading[index]"
                 @click="expandPanel(index, recipe._id)"
               >
-                <!-- When we click this, get the recipe info if we don't have it then, tack it onto the object -->
                 <v-icon>{{ show[index] ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
               </v-btn>
             </v-card-actions>
@@ -100,24 +119,28 @@
 <script>
 import { APIService } from '@/services/api-service.js'
 const apiService = new APIService()
+const RECIPE_PAGE_NAME = 'digital-cookbook-recipe'
 export default {
   name: 'recipe-list',
   data: () => ({
+    RECIPE_PAGE_NAME,
     tab: null,
     items: [
-      'Appetizers', 'Entrees', 'Deserts', 'Cocktails'
+      'Breakfast', 'Lunch', 'Dinner', 'Snacks'
     ],
+    item: null,
     recipeList: [],
     show: [],
-    loading: []
+    loading: [],
+    offsetTop: 0,
+    showMobileMenu: false
   }),
   mounted () {
     this.getRecipes()
   },
   methods: {
     getRecipes () {
-      apiService.test().then(res => {
-        console.log(res)
+      apiService.getRecipeList().then(res => {
         this.recipeList = res.data.recipes
         this.show = Array(this.recipeList.length).fill(false)
         this.loading = Array(this.recipeList.length).fill(false)
@@ -142,15 +165,29 @@ export default {
       }
     },
     swipe (dir) {
-      console.log(dir)
+      if (document.documentElement.scrollTop === 0 && dir === 'Down') {
+        this.showMobileMenu = true
+      } else if (dir === 'Up' && document.documentElement.scrollTop > 200) {
+        this.showMobileMenu = false
+      }
     },
     img (name) {
       return require('../../../../../public/img/' + name + '.jpg')
     },
-    navTo (path, internal) {
+    navTo (path, id) {
+      this.$store.dispatch('updateRecipeId', id)
       let self = this
-      this.$store.dispatch('navTo', { path, internal, self })
+      this.$store.dispatch('navTo', { path, internal: true, self })
+    },
+    onScroll (e) {
+      this.offsetTop = e.target.scrollTop
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+#tabs > div {
+  margin: auto !important;
+}
+
+</style>

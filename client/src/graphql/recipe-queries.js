@@ -21,14 +21,21 @@ exports.recipeExpansion = {
     }
   `
 }
-// TODO: Update this to get the information we need to finish the recipe details page
+
 exports.recipePage = {
   query: `
-  {
-    recipes {
+  query GetRecipe($id: ID!) {
+    getRecipe(_id: $id) {
       _id
       name
       desc
+      source
+      prepTime
+      cookTime
+      totalTime
+      servings
+      ingredients
+      instructions
       img
     }
   }

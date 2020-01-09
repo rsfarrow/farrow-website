@@ -20,6 +20,7 @@
       <v-col cols="4">
         <v-card
           link
+          disabled
         >
           <v-img
             :src="gameImg"
@@ -32,12 +33,26 @@
       <v-col cols="4">
         <v-card
           link
+          disabled
         >
           <v-img
             :src="tttImg"
           />
           <v-card-title>
             Tic-Tac-Toe
+          </v-card-title>
+        </v-card>
+      </v-col>
+      <v-col cols="4">
+        <v-card
+          link
+          disabled
+        >
+          <v-img
+            :src="soonImg"
+          />
+          <v-card-title>
+            Boxing Timer
           </v-card-title>
         </v-card>
       </v-col>
@@ -54,10 +69,15 @@ export default {
       return require('../../../../public/img/cookbook.jpeg')
     },
     gameImg () {
-      return require('../../../../public/img/game.jpeg')
+      return require('../../../../public/img/soon.png')
+      // return require('../../../../public/img/game.jpeg')
     },
     tttImg () {
-      return require('../../../../public/img/ttt.jpg')
+      return require('../../../../public/img/soon.png')
+      // return require('../../../../public/img/ttt.jpg')
+    },
+    soonImg () {
+      return require('../../../../public/img/soon.png')
     }
   },
   mounted () {
