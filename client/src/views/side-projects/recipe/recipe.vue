@@ -1,12 +1,12 @@
 <template>
   <div>
     <!-- TODO: Once we add a shopping list option, add a button for adding not checked items to the shopping list -->
-    <!-- Want a 30-60 split ingredients on the left, instructions on the right for desktop -->
     <!-- Want a tabbed split for mobile, Maybe a stepper for mobile, options on the right side?  -->
     <v-container class="mx-auto">
       <v-row>
         <v-col
-          cols="4"
+          cols="12"
+          sm="4"
         >
           <v-img
             v-if="recipe.img"
@@ -36,18 +36,20 @@
           </v-row>
         </v-col>
         <v-col
-          cols="8"
+          cols="12"
+          sm="8"
         >
           <v-tabs
             v-model="tab"
             background-color="transparent"
             right
+            :grow="$vuetify.breakpoint.smAndDown"
           >
             <v-tab
               v-for="item in items"
               :key="item"
             >
-              {{ item }}
+              <span :class="{'caption': $vuetify.breakpoint.smAndDown}"> {{ item }}</span>
             </v-tab>
           </v-tabs>
           <v-list
