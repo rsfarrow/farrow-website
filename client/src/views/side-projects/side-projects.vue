@@ -4,7 +4,7 @@
       align="center"
       justify="center"
     >
-      <v-col cols="4">
+      <v-col cols="12" sm="4">
         <v-card
           link
           @click="navTo('digital-cookbook-list')"
@@ -17,7 +17,7 @@
           </v-card-title>
         </v-card>
       </v-col>
-      <v-col cols="4">
+      <v-col cols="12" sm="4">
         <v-card
           link
           @click="navTo('whack-a-mole')"
@@ -30,7 +30,7 @@
           </v-card-title>
         </v-card>
       </v-col>
-      <v-col cols="4">
+      <v-col cols="12" sm="4">
         <v-card
           link
           disabled
@@ -43,7 +43,7 @@
           </v-card-title>
         </v-card>
       </v-col>
-      <v-col cols="4">
+      <v-col cols="12" sm="4">
         <v-card
           link
           disabled

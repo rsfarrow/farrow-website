@@ -41,6 +41,8 @@
 
     <!-- TODO: Possibly change this to just show 1 recipe on mobile, and swipe left/right to grab a new one -->
     <v-container>
+      What's happening here?
+      {{ recipeList }}
       <v-row
         justify="center"
         align="start"

@@ -7,7 +7,6 @@
     >
       <v-container fill-height
                    class="my-auto"
-                   style="margin-top: 500px;"
       >
         <v-row
           align="center"
@@ -28,6 +27,7 @@
               <v-btn class="ma-2"
                      outlined
                      :large="$vuetify.breakpoint.mdAndUp"
+                     :small="$vuetify.breakpoint.smAndDown"
                      fab
                      color="primary darken-2"
                      v-on="on"
@@ -43,6 +43,7 @@
               <v-btn class="ma-2"
                      outlined
                      :large="$vuetify.breakpoint.mdAndUp"
+                     :small="$vuetify.breakpoint.smAndDown"
                      fab
                      color="primary darken-2"
                      v-on="on"
@@ -58,6 +59,7 @@
               <v-btn class="ma-2"
                      outlined
                      :large="$vuetify.breakpoint.mdAndUp"
+                     :small="$vuetify.breakpoint.smAndDown"
                      fab
                      color="primary darken-2"
                      v-on="on"
@@ -73,6 +75,7 @@
               <v-btn class="ma-2"
                      outlined
                      :large="$vuetify.breakpoint.mdAndUp"
+                     :small="$vuetify.breakpoint.smAndDown"
                      fab
                      color="primary darken-2"
                      v-on="on"
@@ -88,6 +91,7 @@
               <v-btn class="ma-2"
                      outlined
                      :large="$vuetify.breakpoint.mdAndUp"
+                     :small="$vuetify.breakpoint.smAndDown"
                      fab
                      color="primary darken-2"
                      v-on="on"
