@@ -54,7 +54,9 @@
           sm="6"
           lg="4"
         >
-          <v-card>
+          <v-card
+            color="secondary lighten-4"
+          >
             <v-img
               :src="img(recipe.img)"
               height="200px"

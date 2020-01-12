@@ -20,7 +20,7 @@
       <v-col cols="4">
         <v-card
           link
-          disabled
+          @click="navTo('whack-a-mole')"
         >
           <v-img
             :src="gameImg"
@@ -69,8 +69,7 @@ export default {
       return require('../../../../public/img/cookbook.jpeg')
     },
     gameImg () {
-      return require('../../../../public/img/soon.png')
-      // return require('../../../../public/img/game.jpeg')
+      return require('../../../../public/img/game.jpeg')
     },
     tttImg () {
       return require('../../../../public/img/soon.png')

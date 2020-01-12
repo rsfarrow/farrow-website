@@ -1,9 +1,8 @@
 <template>
   <div v-if="$store.getters.showAppBar">
     <v-app-bar
-      color="deep-purple accent-4"
+      color="secondary"
       dense
-      dark
       app
     >
       <v-app-bar-nav-icon

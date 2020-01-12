@@ -2,21 +2,22 @@
   <div>
     <!-- TODO: Once we add a shopping list option, add a button for adding not checked items to the shopping list -->
     <!-- Want a tabbed split for mobile, Maybe a stepper for mobile, options on the right side?  -->
-    <v-container class="mx-auto">
+    <v-container>
       <v-row>
         <v-col
           cols="12"
           sm="4"
         >
+          <!-- TODO: Find a quirky font for the titles -->
           <v-img
             v-if="recipe.img"
             class="mx-auto"
             height="200"
             :src="img(recipe.img)"
           />
-          <span class="display-1">{{ recipe.name }}</span>
+          <span class="display-2 font-weight-bold secondary--text text--darken-3">{{ recipe.name }}</span>
           <v-divider class="my-3" />
-          <span> {{ recipe.desc }} </span>
+          <span class="overline"> {{ recipe.desc }} </span>
           <v-divider class="my-3" />
           <v-row
             justify="space-between"
@@ -114,7 +115,7 @@
                     :disabled="n === 0"
                     small
                     outlined
-                    color="secondary"
+                    color="primary"
                     @click="selectedInstruction--"
                   >
                     Prev
