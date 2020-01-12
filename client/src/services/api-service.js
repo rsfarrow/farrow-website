@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { recipeList, recipeExpansion, recipePage } from '../graphql/recipe-queries'
-const url = 'http://localhost:4000/graphql'
+const url = 'https://farrow.herokuapp.com/graphql'
 
 // TODO: Do some checking on the http status and such.
 // TODO: Update the URL

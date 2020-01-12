@@ -41,8 +41,6 @@
 
     <!-- TODO: Possibly change this to just show 1 recipe on mobile, and swipe left/right to grab a new one -->
     <v-container>
-      What's happening here?
-      {{ recipeList }}
       <v-row
         justify="center"
         align="start"
@@ -145,7 +143,7 @@ export default {
   methods: {
     getRecipes () {
       apiService.getRecipeList().then(res => {
-        this.recipeList = res
+        this.recipeList = res.data.recipes
         this.show = Array(this.recipeList.length).fill(false)
         this.loading = Array(this.recipeList.length).fill(false)
       })
