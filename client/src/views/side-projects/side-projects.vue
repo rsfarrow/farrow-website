@@ -79,9 +79,6 @@ export default {
       return require('../../../../public/img/soon.png')
     }
   },
-  mounted () {
-    console.log('this.$store,', this.$store)
-  },
   methods: {
     navTo (path, internal) {
       let self = this

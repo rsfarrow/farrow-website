@@ -162,14 +162,12 @@ export default {
   },
   methods: {
     getRecipe (id) {
-      console.log('Get Recipe: ', id)
       apiService.getRecipe({ variables: { id: id } })
         .then(res => {
           this.recipe = res.data.getRecipe
         })
     },
     img (name) {
-      console.log('Img entry: ', name)
       return require('../../../../../public/img/' + name + '.jpg')
     },
     navTo (path, id) {

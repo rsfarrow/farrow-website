@@ -22,7 +22,7 @@ export default {
   },
   watch: {
     showAppBar () {
-      console.log('ShowAppBar, ', this.showAppBar)
+      // console.log('ShowAppBar, ', this.showAppBar)
     }
   }
 }

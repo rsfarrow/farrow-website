@@ -120,7 +120,6 @@ export default {
   },
   methods: {
     navTo (path, internal) {
-      console.log('app-nav-drawer: ', path)
       let self = this
       this.$store.dispatch('navTo', { path, internal, self })
     }

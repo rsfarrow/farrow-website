@@ -20,7 +20,6 @@ module.exports = {
     return transformRecipe(fetchedRecipe)
   },
   createRecipe: async (args, req) => {
-    console.log('')
     const recipe = new RecipeDB({
       name: args.recipeInput.name,
       desc: args.recipeInput.desc,
