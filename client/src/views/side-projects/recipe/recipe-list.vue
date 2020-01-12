@@ -145,7 +145,7 @@ export default {
   methods: {
     getRecipes () {
       apiService.getRecipeList().then(res => {
-        this.recipeList = res.data.recipes
+        this.recipeList = res
         this.show = Array(this.recipeList.length).fill(false)
         this.loading = Array(this.recipeList.length).fill(false)
       })
