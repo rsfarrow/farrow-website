@@ -46,7 +46,7 @@ app.use((req, res, next) => {
   next()
 })
 app.use(isAuth)
-app.use('/', expressStaticGzip(path.join(__dirname, '/dist'), {
+app.use('/', expressStaticGzip(path.join(__dirname, '../dist'), {
   enableBrotli: true,
   orderPreference: ['br', 'gz'],
   setHeaders: function (res, path) {
