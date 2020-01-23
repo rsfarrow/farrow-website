@@ -5,6 +5,19 @@
       down: () => swipe('Down')
     }"
   >
+    <!-- <v-btn
+      absolute
+      fab
+      bottom
+      right
+      color="primary"
+      class="mb-9"
+      @click="navTo('digital-cookbook-recipe-add')"
+    >
+      <v-icon>
+        mdi-plus
+      </v-icon>
+    </v-btn> -->
     <v-expand-transition>
       <v-list
         v-show="showMobileMenu && $vuetify.breakpoint.smAndDown"
@@ -16,6 +29,7 @@
           <v-list-item
             v-for="(item, i) in items"
             :key="i"
+            @click="getRecipes(item); showMobileMenu = false"
           >
             <v-list-item-content>
               <v-list-item-title class="text-center" v-text="item" />
@@ -34,6 +48,7 @@
       <v-tab
         v-for="item in items"
         :key="item"
+        @click="getRecipes(item)"
       >
         {{ item }}
       </v-tab>
@@ -55,7 +70,7 @@
           lg="4"
         >
           <v-card
-            color="secondary lighten-4"
+            color="accent lighten-4"
           >
             <v-img
               :src="img(recipe.img)"
@@ -126,9 +141,9 @@ export default {
   name: 'recipe-list',
   data: () => ({
     RECIPE_PAGE_NAME,
-    tab: null,
+    tab: 4,
     items: [
-      'Breakfast', 'Lunch', 'Dinner', 'Snacks'
+      'Breakfast', 'Lunch', 'Dinner', 'Snacks', 'All'
     ],
     item: null,
     recipeList: [],
@@ -138,11 +153,12 @@ export default {
     showMobileMenu: false
   }),
   mounted () {
-    this.getRecipes()
+    this.getRecipes('')
   },
   methods: {
-    getRecipes () {
-      apiService.getRecipeList().then(res => {
+    getRecipes (category) {
+      if (category === 'All') category = ''
+      apiService.getRecipeList({ variables: { category } }).then(res => {
         this.recipeList = res.data.recipes
         this.show = Array(this.recipeList.length).fill(false)
         this.loading = Array(this.recipeList.length).fill(false)
@@ -177,7 +193,7 @@ export default {
       return require('../../../../../public/img/' + name + '.jpg')
     },
     navTo (path, id) {
-      this.$store.dispatch('updateRecipeId', id)
+      if (id) this.$store.dispatch('updateRecipeId', id)
       let self = this
       this.$store.dispatch('navTo', { path, internal: true, self })
     },
