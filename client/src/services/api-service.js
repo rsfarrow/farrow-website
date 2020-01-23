@@ -1,13 +1,14 @@
 import axios from 'axios'
 import { recipeList, recipeExpansion, recipePage } from '../graphql/recipe-queries'
-const url = 'https://farrow.herokuapp.com/graphql'
+const url = process.env.NODE_ENV === 'production' ? 'https://farrow.herokuapp.com/graphql' : 'http://localhost:4000/graphql'
 
 // TODO: Do some checking on the http status and such.
 // TODO: Update the URL
 
 export class APIService {
-  async getRecipeList () {
-    return this.sendAxios(url, 'POST', recipeList)
+  async getRecipeList (variables) {
+    const payload = { ...recipeList, ...variables }
+    return this.sendAxios(url, 'POST', payload)
   }
   async getRecipeExpansion (variables) {
     const payload = { ...recipeExpansion, ...variables }

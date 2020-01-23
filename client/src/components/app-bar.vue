@@ -1,7 +1,7 @@
 <template>
   <div v-if="$store.getters.showAppBar">
     <v-app-bar
-      color="secondary"
+      color="secondary lighten-5"
       dense
       app
     >

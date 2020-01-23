@@ -15,6 +15,8 @@ const DIGITAL_COOKBOOK_LIST_ROUTE = '/side-projects/digital-cookbook'
 const DIGITAL_COOKBOOK_LIST_NAME = 'digital-cookbook-list'
 const DIGITAL_COOKBOOK_RECIPE_ROUTE = '/side-projects/digital-cookbook/recipe'
 const DIGITAL_COOKBOOK_RECIPE_NAME = 'digital-cookbook-recipe'
+const DIGITAL_COOKBOOK_NEW_RECIPE_ROUTE = '/side-projects/digital-cookbook/recipe/add'
+const DIGITAL_COOKBOOK_NEW_RECIPE_NAME = 'digital-cookbook-recipe-add'
 const WHACK_ROUTE = '/side-projects/whack-a-mole'
 const WHACK_NAME = 'whack-a-mole'
 const HIGHSCORE_NAME = 'highscores'
@@ -39,7 +41,13 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    component: () => import(/* webpackChunkName: "about" */ './views/about.vue'),
+    beforeEnter: (to, from, next) => {
+      store.dispatch('updateShowAppBar', true)
+      store.dispatch('updateGlobalTitle', 'About Me')
+      store.dispatch('updateShowSideMenu', false)
+      next()
+    }
   },
   {
     path: DIGITAL_COOKBOOK_LIST_ROUTE,
@@ -48,6 +56,7 @@ const routes = [
     beforeEnter: (to, from, next) => {
       store.dispatch('updateShowAppBar', true)
       store.dispatch('updateGlobalTitle', 'Digital Cookbook')
+      store.dispatch('updateShowSideMenu', false)
       next()
     }
   },
@@ -58,6 +67,18 @@ const routes = [
     beforeEnter: (to, from, next) => {
       store.dispatch('updateShowAppBar', true)
       store.dispatch('updateGlobalTitle', 'Digital Cookbook')
+      store.dispatch('updateShowSideMenu', false)
+      next()
+    }
+  },
+  {
+    path: DIGITAL_COOKBOOK_NEW_RECIPE_ROUTE,
+    name: DIGITAL_COOKBOOK_NEW_RECIPE_NAME,
+    component: () => import('./views/side-projects/recipe/new-recipe.vue'),
+    beforeEnter: (to, from, next) => {
+      store.dispatch('updateShowAppBar', true)
+      store.dispatch('updateGlobalTitle', 'Digital Cookbook')
+      store.dispatch('updateShowSideMenu', false)
       next()
     }
   },
@@ -69,6 +90,7 @@ const routes = [
       // store.getters.loggedIn ? next() : next({ name: HOME_NAME })
       store.dispatch('updateShowAppBar', true)
       store.dispatch('updateGlobalTitle', 'Whack-A-Mole')
+      store.dispatch('updateShowSideMenu', false)
       next()
     }
   },
@@ -80,6 +102,7 @@ const routes = [
       // store.getters.loggedIn ? next() : next({ name: HOME_NAME })
       store.dispatch('updateShowAppBar', true)
       store.dispatch('updateGlobalTitle', 'Whack-A-Mole - Highscores')
+      store.dispatch('updateShowSideMenu', false)
       next()
     }
   },
@@ -90,6 +113,7 @@ const routes = [
     beforeEnter: (to, from, next) => {
       store.dispatch('updateShowAppBar', true)
       store.dispatch('updateGlobalTitle', 'Side Projects')
+      store.dispatch('updateShowSideMenu', false)
       next()
     }
   }

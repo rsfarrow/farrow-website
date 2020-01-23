@@ -1,7 +1,7 @@
 exports.recipeList = {
   query: `
-  {
-    recipes {
+  query Recipes($category: String) {
+    recipes(category: $category) {
       _id
       name
       img

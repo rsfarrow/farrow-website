@@ -69,7 +69,7 @@ const transformRecipe = recipe => {
   return {
     ...recipe._doc,
     createdAt: recipe._doc.createdAt,
-    updatedAt: recipe._doc.createdAt
+    updatedAt: recipe._doc.updatedAt
   }
 }
 

@@ -15,7 +15,7 @@
             height="200"
             :src="img(recipe.img)"
           />
-          <span class="display-2 font-weight-bold secondary--text text--darken-3">{{ recipe.name }}</span>
+          <span class="display-2 font-weight-bold accent--text text--darken-3">{{ recipe.name }}</span>
           <v-divider class="my-3" />
           <span class="overline"> {{ recipe.desc }} </span>
           <v-divider class="my-3" />

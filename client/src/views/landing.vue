@@ -95,6 +95,7 @@
                      fab
                      color="primary darken-2"
                      v-on="on"
+                     @click="navTo('about')"
               >
                 <v-icon v-text="'mdi-face-profile'" />
               </v-btn>

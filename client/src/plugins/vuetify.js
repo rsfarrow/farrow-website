@@ -14,13 +14,12 @@ export default new Vuetify({
     options: {
       customProperties: true
     },
-    // TODO: probably update this more later
     themes: {
       light: {
         primary: '#018191',
-        secondary: '#fce181',
-        accent: '#9fedd7',
-        background: '#BCD6ED',
+        secondary: '#2f6ced',
+        accent: '#fce181',
+        background: '#e0dece',
         error: '#FF5252',
         info: '#2196F3',
         success: '#4CAF50',

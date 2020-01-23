@@ -2,9 +2,9 @@ const { transformRecipe } = require('./merge')
 const RecipeDB = require('../../models/recipe')
 
 module.exports = {
-  recipes: async () => {
+  recipes: async ({ category }) => {
     try {
-      const recipes = await RecipeDB.find()
+      const recipes = (category) ? await RecipeDB.find({ category }).collation({ locale: 'en', strength: 2 }) : await RecipeDB.find()
       return recipes.map(recipe => {
         return transformRecipe(recipe)
       })

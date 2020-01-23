@@ -72,7 +72,7 @@ type RootQuery {
     events: [Event!]!
     bookings: [Booking!]!
     login(email: String!, password: String!): AuthData
-    recipes: [Recipe!]!
+    recipes(category: String): [Recipe!]!
     getRecipe(_id: ID!): Recipe!
 }
 type RootMutation {
