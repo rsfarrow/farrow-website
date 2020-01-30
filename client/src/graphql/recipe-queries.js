@@ -41,3 +41,15 @@ exports.recipePage = {
   }
   `
 }
+
+exports.createRecipe = {
+  query: `
+  mutation CreateRecipe($recipeInput: RecipeInput) {
+       createRecipe(recipeInput: $recipeInput) {
+         _id
+         name
+         category
+       }
+     }
+  `
+}

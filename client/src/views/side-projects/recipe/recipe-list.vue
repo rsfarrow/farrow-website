@@ -1,11 +1,10 @@
 <template>
-  <div
-    v-touch="{
-      up: () => swipe('Up'),
-      down: () => swipe('Down')
-    }"
+  <div v-touch="{
+    up: () => swipe('Up'),
+    down: () => swipe('Down')
+  }"
   >
-    <!-- <v-btn
+    <v-btn
       absolute
       fab
       bottom
@@ -17,7 +16,7 @@
       <v-icon>
         mdi-plus
       </v-icon>
-    </v-btn> -->
+    </v-btn>
     <v-expand-transition>
       <v-list
         v-show="showMobileMenu && $vuetify.breakpoint.smAndDown"
@@ -25,14 +24,20 @@
         color="transparent"
         flat
       >
-        <v-list-item-group v-model="item" color="primary">
+        <v-list-item-group
+          v-model="item"
+          color="primary"
+        >
           <v-list-item
             v-for="(item, i) in items"
             :key="i"
             @click="getRecipes(item); showMobileMenu = false"
           >
             <v-list-item-content>
-              <v-list-item-title class="text-center" v-text="item" />
+              <v-list-item-title
+                class="text-center"
+                v-text="item"
+              />
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -69,9 +74,7 @@
           sm="6"
           lg="4"
         >
-          <v-card
-            color="accent lighten-4"
-          >
+          <v-card color="accent lighten-4">
             <v-img
               :src="img(recipe.img)"
               height="200px"
@@ -103,9 +106,7 @@
 
                 <v-card-text>
                   <v-container class="py-0 px-0">
-                    <v-row
-                      justify="start"
-                    >
+                    <v-row justify="start">
                       <v-col class="subtitle-1">
                         {{ recipe.desc }}
                       </v-col>
@@ -134,6 +135,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import { APIService } from '@/services/api-service.js'
 const apiService = new APIService()
 const RECIPE_PAGE_NAME = 'digital-cookbook-recipe'
@@ -152,10 +154,20 @@ export default {
     offsetTop: 0,
     showMobileMenu: false
   }),
+  computed: {
+    ...mapGetters(['category'])
+  },
   mounted () {
-    this.getRecipes('')
+    let index = this.items.indexOf(this.category)
+    this.tab = index === -1 ? 4 : index
+    this.getRecipes(this.category || '')
+  },
+  beforeRouteLeave (to, from, next) {
+    this.$store.dispatch('updateCategory')
+    next()
   },
   methods: {
+
     getRecipes (category) {
       if (category === 'All') category = ''
       apiService.getRecipeList({ variables: { category } }).then(res => {
@@ -190,7 +202,11 @@ export default {
       }
     },
     img (name) {
-      return require('../../../../../public/img/' + name + '.jpg')
+      try {
+        return require('../../../../../public/img/' + name + '.jpg')
+      } catch {
+        return require('../../../../../public/img/it-me.png')
+      }
     },
     navTo (path, id) {
       if (id) this.$store.dispatch('updateRecipeId', id)
@@ -207,5 +223,4 @@ export default {
 #tabs > div {
   margin: auto !important;
 }
-
 </style>

@@ -168,7 +168,11 @@ export default {
         })
     },
     img (name) {
-      return require('../../../../../public/img/' + name + '.jpg')
+      try {
+        return require('../../../../../public/img/' + name + '.jpg')
+      } catch {
+        return require('../../../../../public/img/it-me.png')
+      }
     },
     navTo (path, id) {
       this.$store.dispatch('updateRecipeId', id)

@@ -17,7 +17,7 @@
             Previously,
           </div>
           <div class="body-1">
-            I graduated from North Carolina State University with a Bachelor of Science in Computer Science, and a minor in Criminology.  I've always had a passion for computers, since a young age.  Growing up I loved video games, playing on the computer, and all kinds of technology.
+            I graduated from North Carolina State University with a Bachelor of Science in Computer Science, and a minor in Criminology.  I've always had a passion for computers, since a young age.  Growing up I was always interested in technology, computers, and video games.
           </div>
         </v-col>
       </v-row>
@@ -32,7 +32,12 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-carousel hide-delimiters>
+    <v-carousel
+      continuous
+      cycle
+      hide-delimiter-background
+      show-arrows-on-hover
+    >
       <v-carousel-item
         v-for="(item,i) in pictures"
         :key="i"

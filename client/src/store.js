@@ -21,7 +21,8 @@ export default new Vuex.Store({
       showSideMenu: false
     },
     recipe: {
-      selectedId: ''
+      selectedId: '',
+      category: ''
     },
     loggedIn: false,
     guest: false,
@@ -34,6 +35,7 @@ export default new Vuex.Store({
     showAppBar: state => state.global.showAppBar,
     showSideMenu: state => state.global.showSideMenu,
     recipeId: state => state.recipe.selectedId,
+    category: state => state.recipe.category,
     name: state => state.user.name,
     email: state => state.user.email || 'Guest',
     loggedIn: state => state.loggedIn,
@@ -53,6 +55,9 @@ export default new Vuex.Store({
     },
     updateRecipeId (state, id) {
       state.recipe.selectedId = id
+    },
+    updateCategory (state, category) {
+      state.recipe.category = category
     },
     updateLoggedIn (state, loggedIn) {
       state.loggedIn = loggedIn
@@ -88,6 +93,9 @@ export default new Vuex.Store({
     },
     updateRecipeId ({ commit }, id) {
       commit('updateRecipeId', id)
+    },
+    updateCategory ({ commit }, category) {
+      commit('updateCategory', category)
     },
     navTo ({ commit }, options) {
       navTo(options.self, options.path, options.internal)
