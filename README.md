@@ -18,9 +18,12 @@ Todos:
   - Add About Me Section
   - Digital Cookbook Updates
     - ~Create Recipe Page~
-    - Improvements for mobile
-    - Update GraphQL to search by category
+    - ~Improvements for mobile~
+    - ~Update GraphQL to search by category~
     - Add a form to add recipes
+    - Add more recipes
+    - Add image upload capabilities for new recipes
+    - Verify image name before upload
     - Add Ratings / Comments
     - Add Likes
     - Add shopping list page
