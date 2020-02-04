@@ -100,7 +100,8 @@ export default {
             { title: 'Digital Cookbook', icon: 'mdi-book', disabled: false, path: 'digital-cookbook-list', internal: true },
             { title: 'Whack-a-Mole', icon: 'mdi-hammer', disabled: false, path: 'whack-a-mole', internal: true },
             { title: 'Tic Tac Toe', icon: 'mdi-alpha-x-box-outline', disabled: true, path: '', internal: true },
-            { title: 'Boxing Timer', icon: 'mdi-boxing-glove', disabled: true, path: '', internal: true }
+            { title: 'Boxing Timer', icon: 'mdi-boxing-glove', disabled: true, path: '', internal: true },
+            { title: 'Bike Workouts', icon: 'mdi-bike', disabled: false, path: 'bike-workout-list', internal: true }
 
           ] },
         { title: 'Github', icon: 'mdi-github-box', path: GITHUB_PROFILE, internal: false },
