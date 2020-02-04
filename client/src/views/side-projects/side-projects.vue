@@ -55,6 +55,18 @@
             Boxing Timer
           </v-card-title>
         </v-card>
+      </v-col><v-col cols="12" sm="4">
+        <v-card
+          link
+          @click="navTo('bike-workout-list')"
+        >
+          <v-img
+            :src="soonImg"
+          />
+          <v-card-title>
+            Bike Workouts
+          </v-card-title>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>

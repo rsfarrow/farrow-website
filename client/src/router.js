@@ -21,6 +21,10 @@ const WHACK_ROUTE = '/side-projects/whack-a-mole'
 const WHACK_NAME = 'whack-a-mole'
 const HIGHSCORE_NAME = 'highscores'
 const HIGHSCORE_ROUTE = '/highscores'
+const WORKOUTS_BIKE_ROUTE = '/workouts/bike'
+const WORKOUTS_BIKE_NAME = 'bike-workout'
+const WORKOUTS_BIKE_LIST_ROUTE = '/workouts/bike/list'
+const WORKOUTS_BIKE_LIST_NAME = 'bike-workout-list'
 const Whack = () => import('./views/side-projects/whack-a-mole/whack-a-mole.vue')
 const Highscore = () => import('./views/side-projects/whack-a-mole/highscores.vue')
 const routes = [
@@ -113,6 +117,28 @@ const routes = [
     beforeEnter: (to, from, next) => {
       store.dispatch('updateShowAppBar', true)
       store.dispatch('updateGlobalTitle', 'Side Projects')
+      store.dispatch('updateShowSideMenu', false)
+      next()
+    }
+  },
+  {
+    path: WORKOUTS_BIKE_ROUTE,
+    name: WORKOUTS_BIKE_NAME,
+    component: () => import('./views/side-projects/bike-workouts/bike-workouts.vue'),
+    beforeEnter: (to, from, next) => {
+      store.dispatch('updateShowAppBar', true)
+      store.dispatch('updateGlobalTitle', 'Bike Workout')
+      store.dispatch('updateShowSideMenu', false)
+      next()
+    }
+  },
+  {
+    path: WORKOUTS_BIKE_LIST_ROUTE,
+    name: WORKOUTS_BIKE_LIST_NAME,
+    component: () => import('./views/side-projects/bike-workouts/bike-workout-list.vue'),
+    beforeEnter: (to, from, next) => {
+      store.dispatch('updateShowAppBar', true)
+      store.dispatch('updateGlobalTitle', 'Bike Workout')
       store.dispatch('updateShowSideMenu', false)
       next()
     }
