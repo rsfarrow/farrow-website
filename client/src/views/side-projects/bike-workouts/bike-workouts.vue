@@ -120,7 +120,7 @@ export default {
       {
         time: '3',
         intensity: 'Very High',
-        bpm: '145 - 1SECONDS_IN_MINUTE',
+        bpm: '145 - 160',
         comments: '',
         color: 'red'
       },
@@ -134,7 +134,7 @@ export default {
       {
         time: '3',
         intensity: 'Very High',
-        bpm: '145 - 1SECONDS_IN_MINUTE',
+        bpm: '145 - 160',
         comments: '',
         color: 'red'
       },
