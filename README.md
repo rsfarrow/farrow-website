@@ -15,6 +15,12 @@ Todos:
     - Improvements: Create pre-defined routines, based on what you want to work on
     - Improvements: Have a voice read off the round combination
     - Improvements: Settings to change bell sound, warning sound, warning length (10s vs 15s), voice, etc.
+  - Bike Workouts
+    - ~Create Initial bike workout page (list and acutal workout page)~
+    - Add APIs to get bike list and bike workout from DB
+    - Add APIs to API Service
+    - Feature Request: Instead of the whole circle changing with the color of your HR target, show each HR colored segment
+    - Feature Request: Instead of the whole progress being a button, add a specific start/pause button
   - Add About Me Section
   - Digital Cookbook Updates
     - ~Create Recipe Page~
