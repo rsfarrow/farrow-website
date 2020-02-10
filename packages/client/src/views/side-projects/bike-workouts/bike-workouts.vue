@@ -26,7 +26,7 @@
           class="text-center"
           style="height: 350px;"
         >
-          <!-- <v-progress-circular
+          <v-progress-circular
             :rotate="-90"
             :size="350"
             :width="25"
@@ -35,8 +35,8 @@
             @click="startWorkout()"
           >
             <span class="display-2">{{ timeLeft === 0 ? doneMessage : workoutSection.bpm }}</span>
-          </v-progress-circular> -->
-          <template v-for="(cycle, index) in workouts">
+          </v-progress-circular>
+          <!-- <template v-for="(cycle, index) in workouts">
             <v-progress-circular
               :key="index"
               :rotate="getRotateValue(cycle)"
@@ -49,7 +49,7 @@
             >
               <span class="display-2">test</span>
             </v-progress-circular>
-          </template>
+          </template> -->
         </v-col>
       </v-row>
       <v-row justify="space-between">
@@ -85,8 +85,8 @@
 </template>
 <script>
 const SECONDS_IN_MINUTE = 60
-// const MILISECOND_IN_SECOND = 1000
-const MILISECOND_IN_SECOND = 100
+const MILISECOND_IN_SECOND = 1000
+// const MILISECOND_IN_SECOND = 100
 const ZERO_SECONDS = 0
 const HALF_MINUTE = 30
 const BASE_TEN = 10
