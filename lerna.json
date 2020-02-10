@@ -6,7 +6,7 @@
   "stream":true,
     "command":{
         "bootstrap":{
-            "hoist":true
+            "hoist":false
         }
     }
 }
