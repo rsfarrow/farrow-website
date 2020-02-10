@@ -169,9 +169,9 @@ export default {
     },
     img (name) {
       try {
-        return require('../../../../../public/img/' + name + '.jpg')
+        return require('../../../../public/img/' + name + '.jpg')
       } catch {
-        return require('../../../../../public/img/it-me.png')
+        return require('../../../../public/img/it-me.png')
       }
     },
     navTo (path, id) {

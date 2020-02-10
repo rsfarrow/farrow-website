@@ -119,7 +119,7 @@ export default {
   }),
   computed: {
     landingImg () {
-      return require('../../../public/img/landing.jpg')
+      return require('../../public/img/landing.jpg')
     }
   },
   mounted () {

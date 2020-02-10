@@ -32,10 +32,10 @@ export default {
   }),
   computed: {
     moleFace () {
-      return require('../../../../public/img/mole.png')
+      return require('../../../public/img/mole.png')
     },
     bush () {
-      return require('../../../../public/img/bush.png')
+      return require('../../../public/img/bush.png')
     }
   },
   methods: {

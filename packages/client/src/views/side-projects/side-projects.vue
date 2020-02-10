@@ -75,20 +75,20 @@
 export default {
   computed: {
     backgroundImg () {
-      return require('../../../../public/img/side-projects.jpg')
+      return require('../../../public/img/side-projects.jpg')
     },
     cookbookImg () {
-      return require('../../../../public/img/cookbook.jpeg')
+      return require('../../../public/img/cookbook.jpeg')
     },
     gameImg () {
-      return require('../../../../public/img/game.jpeg')
+      return require('../../../public/img/game.jpeg')
     },
     tttImg () {
-      return require('../../../../public/img/soon.png')
-      // return require('../../../../public/img/ttt.jpg')
+      return require('../../../public/img/soon.png')
+      // return require('../../../public/img/ttt.jpg')
     },
     soonImg () {
-      return require('../../../../public/img/soon.png')
+      return require('../../../public/img/soon.png')
     }
   },
   methods: {

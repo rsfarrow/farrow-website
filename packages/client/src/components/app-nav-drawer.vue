@@ -116,7 +116,7 @@ export default {
       return this.$store.getters.showSideMenu
     },
     face () {
-      return require('../../../public/img/it-me.png')
+      return require('../../public/img/it-me.png')
     }
   },
   methods: {

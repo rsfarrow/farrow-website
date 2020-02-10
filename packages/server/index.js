@@ -6,6 +6,7 @@ const cors = require('cors')
 const path = require('path')
 const expressStaticGzip = require('express-static-gzip')
 
+// const bike = require('./bike-workouts/index')
 const graphqlSchema = require('./graphql/schema/index')
 const graphqlResolvers = require('./graphql/resolvers/index')
 const isAuth = require('./middleware/is-auth')
@@ -45,14 +46,20 @@ app.use((req, res, next) => {
   }
   next()
 })
+
 app.use(isAuth)
-app.use('/', expressStaticGzip(path.join(__dirname, '../dist'), {
+app.use('/', expressStaticGzip(path.join(__dirname, '../client/dist'), {
   enableBrotli: true,
   orderPreference: ['br', 'gz'],
   setHeaders: function (res, path) {
     res.setHeader('Cache-Control', 'public, max-age=31536000')
   }
 }))
+
+// Regular APIs
+// app.use(bike.routes)
+
+// GraphQL
 app.use('/graphql', graphqlHTTP({
   schema: graphqlSchema,
   rootValue: graphqlResolvers,

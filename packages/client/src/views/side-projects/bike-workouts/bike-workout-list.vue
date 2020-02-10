@@ -81,7 +81,7 @@ export default {
       this.$store.dispatch('navTo', { path, internal: true, self })
     },
     getImage (name) {
-      return require('../../../../../public/img/' + name + '.jpg')
+      return require('../../../../public/img/' + name + '.jpg')
     }
   }
 }

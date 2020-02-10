@@ -1,5 +1,6 @@
 <template>
   <div class="background lighten-1">
+    <h1>test test</h1>
     <v-container>
       <v-row justify="space-between">
         <v-col class="subtitle-1">
@@ -13,8 +14,19 @@
         justify="center"
         align="center"
       >
-        <v-col class="text-center">
-          <v-progress-circular
+        <!-- TODO: Have each peice of the circle the intensity color for each section -->
+        <!-- TODO: What would we need to do?
+                    - v-for on the progress circle.
+                    - only 1 showing the bpm at a time
+                    - find the correct rotate value
+                    - make sure the value is correct and maxes out and stays maxed out
+
+         -->
+        <v-col
+          class="text-center"
+          style="height: 350px;"
+        >
+          <!-- <v-progress-circular
             :rotate="-90"
             :size="350"
             :width="25"
@@ -23,7 +35,21 @@
             @click="startWorkout()"
           >
             <span class="display-2">{{ timeLeft === 0 ? doneMessage : workoutSection.bpm }}</span>
-          </v-progress-circular>
+          </v-progress-circular> -->
+          <template v-for="(cycle, index) in workouts">
+            <v-progress-circular
+              :key="index"
+              :rotate="getRotateValue(cycle)"
+              style="position: absolute; top: 50px; left: 50px;"
+              :size="350"
+              :width="25"
+              :value="25"
+              :color="cycle.color"
+              @click="startWorkout()"
+            >
+              <span class="display-2">test</span>
+            </v-progress-circular>
+          </template>
         </v-col>
       </v-row>
       <v-row justify="space-between">
@@ -59,7 +85,8 @@
 </template>
 <script>
 const SECONDS_IN_MINUTE = 60
-const MILISECOND_IN_SECOND = 1000
+// const MILISECOND_IN_SECOND = 1000
+const MILISECOND_IN_SECOND = 100
 const ZERO_SECONDS = 0
 const HALF_MINUTE = 30
 const BASE_TEN = 10
@@ -247,6 +274,21 @@ export default {
         this.targetHR = section.bpm
         this.intensity = section.intensity
       }
+    },
+    getRotateValue (cycle) {
+      // The value starts at -90. This is position 0 I would expect.
+      // 360 degrees, divide it into seconds? then we can figure out where
+      // each one needs to start.
+      // So if we did, whenToStart
+      // Degree per second -> (360/totalTime)
+      // multiply this by whenToStart
+      // subtract 90 (because -90 actually = 0)
+      // Lets try!
+      let startRotate = 0
+      let degreePerSecond = 360 / this.totalTime
+      startRotate = (degreePerSecond * cycle.whenToStart) - 90
+      console.log(startRotate, degreePerSecond, cycle.whenToStart)
+      return startRotate
     }
   }
 }
