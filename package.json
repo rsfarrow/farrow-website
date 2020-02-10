@@ -4,7 +4,7 @@
   "description": "A personal website that houses my projects.",
   "author": "Sam Farrow",
   "scripts": {
-    "start": "lerna run start",
+    "start": "lerna link && lerna bootstrap && lerna run start",
     "serve": "lerna run serve"
   },
   "main": "index.js",
