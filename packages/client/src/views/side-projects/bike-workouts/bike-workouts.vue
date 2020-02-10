@@ -1,10 +1,20 @@
 <template>
   <div class="background lighten-1">
-    <h1>test test</h1>
+    <!-- TODO: Add a title to the page <h1>test test</h1> -->
     <v-container>
       <v-row justify="space-between">
         <v-col class="subtitle-1">
           Time Spent: {{ formattedTime }}
+        </v-col>
+        <v-col class="text-center">
+          <v-btn fab
+                 style="z-index: 1;"
+                 @click="startWorkout()"
+          >
+            <v-icon>
+              mdi-play-pause
+            </v-icon>
+          </v-btn>
         </v-col>
         <v-col class="subtitle-1 text-right">
           Time Left: {{ formattedTimeLeft }}
@@ -14,42 +24,31 @@
         justify="center"
         align="center"
       >
-        <!-- TODO: Have each peice of the circle the intensity color for each section -->
-        <!-- TODO: What would we need to do?
-                    - v-for on the progress circle.
-                    - only 1 showing the bpm at a time
-                    - find the correct rotate value
-                    - make sure the value is correct and maxes out and stays maxed out
-
-         -->
         <v-col
-          class="text-center"
-          style="height: 350px;"
+          class="text-center ml-auto"
         >
-          <v-progress-circular
-            :rotate="-90"
-            :size="350"
-            :width="25"
-            :value="percentDone"
-            :color="workoutSection.color"
-            @click="startWorkout()"
-          >
-            <span class="display-2">{{ timeLeft === 0 ? doneMessage : workoutSection.bpm }}</span>
-          </v-progress-circular>
-          <!-- <template v-for="(cycle, index) in workouts">
+          <div style="position: relative; height: 350px" class="ml-auto text-center">
             <v-progress-circular
-              :key="index"
-              :rotate="getRotateValue(cycle)"
-              style="position: absolute; top: 50px; left: 50px;"
+              :style="{position: 'absolute', top: 0, left: $vuetify.breakpoint.mdAndUp ? '30%' : '5%'}"
               :size="350"
               :width="25"
-              :value="25"
-              :color="cycle.color"
-              @click="startWorkout()"
-            >
-              <span class="display-2">test</span>
-            </v-progress-circular>
-          </template> -->
+              :value="100"
+              color="grey lighten-2"
+            />
+            <template v-for="(cycle, index) in workouts">
+              <v-progress-circular
+                :key="index"
+                :rotate="getRotateValue(cycle)"
+                :style="{position: 'absolute', top: 0, left: $vuetify.breakpoint.mdAndUp ? '30%' : '5%'}"
+                :size="350"
+                :width="25"
+                :value="timePassed >= cycle.whenToStart ? cycle.getPercent() : 0"
+                :color="cycle.color"
+              >
+                <span v-if="timePassed >= cycle.whenToStart && timePassed < cycle.whenToEnd" class="display-2 mb-5">{{ cycle.bpm }}</span>
+              </v-progress-circular>
+            </template>
+          </div>
         </v-col>
       </v-row>
       <v-row justify="space-between">
@@ -86,7 +85,6 @@
 <script>
 const SECONDS_IN_MINUTE = 60
 const MILISECOND_IN_SECOND = 1000
-// const MILISECOND_IN_SECOND = 100
 const ZERO_SECONDS = 0
 const HALF_MINUTE = 30
 const BASE_TEN = 10
@@ -231,10 +229,6 @@ export default {
       let display = `${parseInt(this.timeLeft / SECONDS_IN_MINUTE, BASE_TEN)}:${parseInt(this.timeLeft % SECONDS_IN_MINUTE, BASE_TEN).toString().padStart(2, '0')}`
       return display
     },
-    percentDone () {
-      console.log((PERCENT - ((this.timeLeft / this.totalTime) * PERCENT)))
-      return (PERCENT - ((this.timeLeft / this.totalTime) * PERCENT))
-    },
     workoutFinished () {
       return this.timeLeft === ZERO_SECONDS
     }
@@ -258,6 +252,10 @@ export default {
       this.workouts.forEach(cycle => {
         cycle.whenToStart = this.totalTime
         this.totalTime += cycle.time * SECONDS_IN_MINUTE
+        cycle.whenToEnd = this.totalTime
+        cycle.getPercent = () => {
+          return (((this.timePassed - cycle.whenToStart) / this.totalTime) * PERCENT)
+        }
       })
       this.timeLeft = this.totalTime
       this.timePassed = ZERO_SECONDS
@@ -276,18 +274,9 @@ export default {
       }
     },
     getRotateValue (cycle) {
-      // The value starts at -90. This is position 0 I would expect.
-      // 360 degrees, divide it into seconds? then we can figure out where
-      // each one needs to start.
-      // So if we did, whenToStart
-      // Degree per second -> (360/totalTime)
-      // multiply this by whenToStart
-      // subtract 90 (because -90 actually = 0)
-      // Lets try!
       let startRotate = 0
       let degreePerSecond = 360 / this.totalTime
       startRotate = (degreePerSecond * cycle.whenToStart) - 90
-      console.log(startRotate, degreePerSecond, cycle.whenToStart)
       return startRotate
     }
   }
