@@ -27,6 +27,7 @@ export default new Vuex.Store({
     loggedIn: false,
     guest: false,
     user: {},
+    bikeWorkout: {},
     // Default settings for WAM
     settings: defaultSettings
   },
@@ -41,7 +42,8 @@ export default new Vuex.Store({
     loggedIn: state => state.loggedIn,
     darkMode: state => state.settings.darkMode,
     customCursor: state => state.settings.customCursor,
-    guestUser: state => state.guest
+    guestUser: state => state.guest,
+    bikeWorkout: state => state.bikeWorkout
   },
   mutations: {
     updateGlobalTitle (state, newTitle) {
@@ -79,6 +81,9 @@ export default new Vuex.Store({
     },
     updateGuestSettings (state, guest) {
       state.guest = guest
+    },
+    updateBikeWorkout (state, workout) {
+      state.bikeWorkout = workout
     }
   },
   actions: {
@@ -127,6 +132,9 @@ export default new Vuex.Store({
     },
     turnOffCustomCursor ({ commit }) {
       commit('updateCustomCursor', false)
+    },
+    updateBikeWorkout ({ commit }, bikeWorkout) {
+      commit('updateBikeWorkout', bikeWorkout)
     }
   },
   modules: {

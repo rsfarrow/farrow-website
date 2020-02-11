@@ -34,8 +34,10 @@
               :width="25"
               :value="100"
               color="grey lighten-2"
-            />
-            <template v-for="(cycle, index) in workouts">
+            >
+              <span v-if="workoutFinished" class="display-2"> {{ doneMessage }} </span>
+            </v-progress-circular>
+            <template v-for="(cycle, index) in bikeWorkout.workout">
               <v-progress-circular
                 :key="index"
                 :rotate="getRotateValue(cycle)"
@@ -76,13 +78,14 @@
       </v-row>
       <v-row justify="space-between">
         <v-col class="subtitle-1">
-          Comments: {{ workoutFinished ? doneComment : workoutSection.comments }}
+          Comments: {{ workoutFinished ? doneComment : comment }}
         </v-col>
       </v-row>
     </v-container>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 const SECONDS_IN_MINUTE = 60
 const MILISECOND_IN_SECOND = 1000
 const ZERO_SECONDS = 0
@@ -92,102 +95,12 @@ const PERCENT = 100
 export default {
   name: 'bike-workout',
   data: () => ({
-    workouts: [
-      {
-        time: '2',
-        intensity: 'Very Low',
-        bpm: '80 - 100',
-        comments: '',
-        color: 'blue'
-      },
-      {
-        time: '2',
-        intensity: 'Low - Medium',
-        bpm: '100 - 120',
-        comments: 'Warm Up',
-        color: 'green'
-      },
-      {
-        time: '2',
-        intensity: 'Medium - High',
-        bpm: '120 - 140',
-        comments: '',
-        color: 'yellow'
-      },
-      {
-        time: '3',
-        intensity: 'High',
-        bpm: '140 - 155',
-        comments: 'Training',
-        color: 'orange'
-      },
-      {
-        time: '2',
-        intensity: 'Low',
-        bpm: '100 - 110',
-        comments: '',
-        color: 'green'
-      },
-      {
-        time: '3',
-        intensity: 'High',
-        bpm: '140 - 155',
-        comments: '',
-        color: 'orange'
-      },
-      {
-        time: '2',
-        intensity: 'Low',
-        bpm: '100 - 110',
-        comments: '',
-        color: 'green'
-      },
-      {
-        time: '3',
-        intensity: 'Very High',
-        bpm: '145 - 160',
-        comments: '',
-        color: 'red'
-      },
-      {
-        time: '2',
-        intensity: 'Very Low',
-        bpm: '90 - 100',
-        comments: '',
-        color: 'blue'
-      },
-      {
-        time: '3',
-        intensity: 'Very High',
-        bpm: '145 - 160',
-        comments: '',
-        color: 'red'
-      },
-      {
-        time: '3',
-        intensity: 'Medium',
-        bpm: '115 - 120',
-        comments: '',
-        color: 'yellow'
-      },
-      {
-        time: '3',
-        intensity: 'Medium - Low',
-        bpm: '115 - 120',
-        comments: '',
-        color: 'green'
-      }
-    ],
     totalTime: 0,
     timePassed: null,
     timeLeft: null,
     workoutStarted: false,
     timerInterval: '',
-    workoutSection: {
-      targetHR: '',
-      color: '',
-      intensity: ''
-    },
+    comment: '',
     targetHR: '',
     intensity: '',
     doneMessage: '🎉🎉🎉',
@@ -216,6 +129,7 @@ export default {
     ]
   }),
   computed: {
+    ...mapGetters(['bikeWorkout']),
     formattedTime () {
       let minutes = parseInt(this.timePassed / SECONDS_IN_MINUTE, BASE_TEN)
       let seconds = parseInt(this.timePassed % SECONDS_IN_MINUTE, BASE_TEN)
@@ -249,7 +163,7 @@ export default {
       this.workoutStarted = !this.workoutStarted
     },
     getTotalTime () {
-      this.workouts.forEach(cycle => {
+      this.bikeWorkout.workout.forEach(cycle => {
         cycle.whenToStart = this.totalTime
         this.totalTime += cycle.time * SECONDS_IN_MINUTE
         cycle.whenToEnd = this.totalTime
@@ -264,11 +178,11 @@ export default {
       if (this.timeLeft === ZERO_SECONDS) {
         clearInterval(this.timerInterval)
       }
-      let section = this.workouts.find((cycle) => {
+      let section = this.bikeWorkout.workout.find((cycle) => {
         return timePassed === cycle.whenToStart
       })
       if (section) {
-        this.workoutSection = section
+        this.comment = section.comment
         this.targetHR = section.bpm
         this.intensity = section.intensity
       }

@@ -7,7 +7,7 @@
     >
       <v-col
         v-for="(workout, index) in workoutList"
-        :key="workout.length"
+        :key="index"
         class="text-center"
         cols="12"
         sm="6"
@@ -16,8 +16,7 @@
         <v-card
           color="accent lighten-4"
           link
-          :disabled="index !== 0"
-          @click="navTo('bike-workout')"
+          @click="$store.dispatch('updateBikeWorkout', workout);navTo('bike-workout')"
         >
           <v-card-title>
             {{ workout.length }}
@@ -40,43 +39,26 @@
   </v-container>
 </template>
 <script>
-// import { APIService } from '@/services/api-service.js'
-// const apiService = new APIService()
+import { APIService } from '@/services/api-service.js'
+const apiService = new APIService()
 const BIKE_WORKOUT_ROUTE_NAME = 'digital-cookbook-recipe'
 export default {
   name: 'recipe-list',
   data: () => ({
     BIKE_WORKOUT_ROUTE_NAME,
-    tab: 4,
-    items: [
-      'Breakfast', 'Lunch', 'Dinner', 'Snacks', 'All'
-    ],
-    item: null,
-    workoutList: [
-      {
-        length: '30 min',
-        desc: 'A quick in and out bike workout to get you sweaty',
-        img: 'warmup'
-      },
-      {
-        length: '44 min',
-        desc: 'Turn up the heat a little and really get a good workout in under an hour',
-        img: 'workout'
-      },
-      {
-        length: '51 min',
-        desc: 'Have a little time to kill? Try and do this see if you survive!',
-        img: 'death'
-      }
-    ],
+    workoutList: [],
     show: [],
     loading: [],
     offsetTop: 0,
     showMobileMenu: false
   }),
+  mounted () {
+    apiService.getBikeWorkouts().then(res => {
+      this.workoutList = res
+    })
+  },
   methods: {
     navTo (path, id) {
-      // if (id) this.$store.dispatch('updateRecipeId', id)
       let self = this
       this.$store.dispatch('navTo', { path, internal: true, self })
     },
