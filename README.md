@@ -17,8 +17,8 @@ Todos:
     - Improvements: Settings to change bell sound, warning sound, warning length (10s vs 15s), voice, etc.
   - Bike Workouts
     - ~Create Initial bike workout page (list and acutal workout page)~
-    - Add APIs to get bike list and bike workout from DB
-    - Add APIs to API Service
+    - ~Add APIs to get bike list and bike workout from DB~
+    - Add APIs to API Service, and implement
     - ~Feature Request: Instead of the whole circle changing with the color of your HR target, show each HR colored segment~
     - ~Feature Request: Instead of the whole progress being a button, add a specific start/pause button~
   - Add About Me Section
@@ -26,7 +26,7 @@ Todos:
     - ~Create Recipe Page~
     - ~Improvements for mobile~
     - ~Update GraphQL to search by category~
-    - Add a form to add recipes
+    - ~Add a form to add recipes~
     - Add more recipes
     - Add image upload capabilities for new recipes
     - Verify image name before upload
