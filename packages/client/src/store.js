@@ -135,6 +135,9 @@ export default new Vuex.Store({
     },
     updateBikeWorkout ({ commit }, bikeWorkout) {
       commit('updateBikeWorkout', bikeWorkout)
+    },
+    updateName ({ commit }, name) {
+      commit('updateUser', { name, email: '' })
     }
   },
   modules: {

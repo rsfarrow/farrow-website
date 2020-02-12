@@ -107,6 +107,10 @@
             Dark Mode:
           </div>
           <v-switch v-model="internalDarkMode" class="dark-mode" />
+          <v-text-field
+            v-model="tempName"
+            label="New Name"
+          />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -154,7 +158,8 @@ export default {
     moleIndex: 0,
     moleArray: [3, 5, 7],
     internalCustomCursor: false,
-    internalDarkMode: false
+    internalDarkMode: false,
+    tempName: ''
   }),
   watch: {
     showDialog () {
@@ -190,17 +195,11 @@ export default {
         rate: this.rateArray[this.rateIndex],
         moles: this.moleArray[this.moleIndex],
         customCursor: this.internalCustomCursor,
-        darkMode: this.internalDarkMode })
+        darkMode: this.internalDarkMode,
+        newName: this.tempName })
       this.$emit('click:outside', false)
+      this.tempName = ''
     }
   }
 }
 </script>
-<style lang="scss" scoped>
-// .hs {
-
-// }
-// .hs:hover {
-
-  // }
-</style>

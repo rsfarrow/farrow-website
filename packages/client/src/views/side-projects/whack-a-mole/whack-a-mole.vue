@@ -1,5 +1,29 @@
 <template>
   <div id="wam-game">
+    <v-dialog v-model="dialog"
+              persistent
+              max-width="290"
+    >
+      <v-card>
+        <v-card-title />
+        <v-card-text>
+          <v-text-field
+            v-model="tempName"
+            label="Enter your name"
+            @keydown.enter="dialog = false; updateName()"
+          />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="primary darken-1"
+                 text
+                 @click="dialog = false; updateName()"
+          >
+            Save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-container>
       <v-row
         :justify="'space-around'"
@@ -74,6 +98,17 @@
         :disabled="disableButton"
         text
         small
+        @click="disableButton ? '' : navTo('highscores')"
+      >
+        <v-icon> mdi-counter </v-icon>
+      </v-btn>
+      <v-btn
+        id="settings-btn"
+        :input-value="false"
+        icon
+        :disabled="disableButton"
+        text
+        small
         @click="disableButton ? '' : showSettings = true"
       >
         <v-icon> mdi-settings </v-icon>
@@ -82,17 +117,14 @@
   </div>
 </template>
 <script>
-// import Vue from 'vue'
 import Mole from '@/components/whack-a-mole/mole.vue'
 import Scoreboard from '@/components/whack-a-mole/scoreboard.vue'
 import HighScores from '@/components/whack-a-mole/high-score-display.vue'
 import Settings from './settings.vue'
 import { APIService } from '@/services/api-service.js'
 import { mapGetters } from 'vuex'
-// import VueConfetti from 'vue-confetti'
 const apiService = new APIService()
 const GAME_LENGTH = 15
-// Vue.use(VueConfetti)
 export default {
   name: 'whack-a-mole',
   components: {
@@ -110,11 +142,13 @@ export default {
     timeout: '',
     rate: 1,
     showDialog: false,
+    dialog: false,
     showSettings: false,
     highScores: [],
     userHighscore: 0,
     newHighScore: false,
-    newUserHighScore: false
+    newUserHighScore: false,
+    tempName: ''
   }),
   computed: {
     disableButton () {
@@ -122,17 +156,17 @@ export default {
     },
     ...mapGetters(['name', 'darkMode', 'customCursor'])
   },
-  watch: {
-    showDialog () {
-      if (!this.showDialog) {
-        this.$confetti.stop()
-      }
-    }
-  },
   mounted () {
     this.setUpOffset()
+    if (!this.name) {
+      this.dialog = true
+    }
   },
   methods: {
+    navTo (path) {
+      let self = this
+      this.$store.dispatch('navTo', { path, internal: true, self })
+    },
     startGame () {
       this.$refs.mole.forEach((mole) => {
         mole.startTime()
@@ -170,22 +204,22 @@ export default {
       }
       apiService.sendHighscores(payload).then((resp) => {
         this.highScores = resp.scores
-        this.newUserHighScore = resp.user.newUserHighscore
         this.newHighScore = resp.newHighscore
-        this.$refs.highscoreDialog.setUserHighscore(this.newUserHighScore, resp.user.highScore, this.score)
         this.showDialog = true
-        if (this.newHighScore) {
-          this.$confetti.start({ })
-        }
       })
     },
     updateSettings (event) {
+      console.log('update settings: ', event)
       this.rate = event.rate
       this.moles = event.moles
+      if (event.newName) this.$store.dispatch('updateName', event.newName)
       event.customCursor ? this.$store.dispatch('turnOnCustomCursor') : this.$store.dispatch('turnOffCustomCursor')
       event.darkMode ? this.$store.dispatch('turnOnDarkMode') : this.$store.dispatch('turnOffDarkMode')
       this.$vuetify.theme.dark = this.darkMode
       this.setUpOffset()
+    },
+    updateName () {
+      this.$store.dispatch('updateName', this.tempName)
     }
   }
 }
