@@ -1,16 +1,16 @@
 # farrow-website
 A repo for my personal website, which contains side projects, links to get in touch with me, and an about me section.
 
-Todos: 
+Todos:
   - Whack-A-Mole side project
     - ~Port over UI~
-    - Port over back-end APIs
+    - ~Port over back-end APIs~
     - Refine the DB calls
-    - Add API calls to the API Service
+    - ~Add API calls to the API Service~
   - Tic-Tac-Toe side project
     - Port over UI
     - General improvements
-  - Create boxing-timer 
+  - Create boxing-timer
     - Initial timer: Set number of rounds, length of round, length of rest
     - Improvements: Create pre-defined routines, based on what you want to work on
     - Improvements: Have a voice read off the round combination
