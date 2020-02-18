@@ -21,6 +21,7 @@ Todos:
     - ~Add APIs to API Service, and implement~
     - ~Feature Request: Instead of the whole circle changing with the color of your HR target, show each HR colored segment~
     - ~Feature Request: Instead of the whole progress being a button, add a specific start/pause button~
+    - Feature Request: Store the progress in the store so if away from the page we can resume the workout
   - Add About Me Section
     - ~Add personal section~
     - Add a section with a description and explanation of the different side projects.
