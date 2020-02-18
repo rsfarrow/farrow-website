@@ -37,3 +37,6 @@ Todos:
     - Add Likes
     - Add shopping list page
     - ... more to come!
+  - General
+    - Update to HTTPS
+    - Update startup flow with Lerna
