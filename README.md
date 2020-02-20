@@ -24,7 +24,7 @@ Todos:
     - Feature Request: Store the progress in the store so if away from the page we can resume the workout
   - Add About Me Section
     - ~Add personal section~
-    - Add a section with a description and explanation of the different side projects.
+    - ~Add a section with a description and explanation of the different side projects.~ -> Moved to an info icon on the projects page
   - Digital Cookbook Updates
     - ~Create Recipe Page~
     - ~Improvements for mobile~
@@ -38,5 +38,8 @@ Todos:
     - Add shopping list page
     - ... more to come!
   - General
-    - Update to HTTPS
+    - ~Update to HTTPS~
     - Update startup flow with Lerna
+    - Add dark mode option to the navigation menu
+    - Update images to use AWS storage
+    
