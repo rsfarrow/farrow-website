@@ -5,6 +5,7 @@ import { navTo } from '@/utils'
 
 Vue.use(Vuex)
 
+// Default settings for WAM
 const defaultSettings = {
   darkMode: false,
   customCursor: true
@@ -28,7 +29,7 @@ export default new Vuex.Store({
     guest: false,
     user: {},
     bikeWorkout: {},
-    // Default settings for WAM
+    boxingWorkout: {},
     settings: defaultSettings
   },
   getters: {
@@ -43,7 +44,13 @@ export default new Vuex.Store({
     darkMode: state => state.settings.darkMode,
     customCursor: state => state.settings.customCursor,
     guestUser: state => state.guest,
-    bikeWorkout: state => state.bikeWorkout
+    bikeWorkout: state => state.bikeWorkout,
+    numOfRounds: state => state.boxingWorkout.numOfRounds,
+    roundLength: state => state.boxingWorkout.roundLength,
+    restLength: state => state.boxingWorkout.restLength,
+    initialCountdown: state => state.boxingWorkout.initialCountdown,
+    quitPopup: state => state.boxingWorkout.quitPopup,
+    workout: state => state.boxingWorkout.workout
   },
   mutations: {
     updateGlobalTitle (state, newTitle) {
@@ -84,6 +91,9 @@ export default new Vuex.Store({
     },
     updateBikeWorkout (state, workout) {
       state.bikeWorkout = workout
+    },
+    updateBoxingWorkout (state, workout) {
+      state.boxingWorkout = workout
     }
   },
   actions: {
@@ -138,6 +148,9 @@ export default new Vuex.Store({
     },
     updateName ({ commit }, name) {
       commit('updateUser', { name, email: '' })
+    },
+    updateBoxingWorkout ({ commit }, boxingWorkout) {
+      commit('updateBoxingWorkout', boxingWorkout)
     }
   },
   modules: {

@@ -16,7 +16,7 @@
         <v-card
           color="accent lighten-4"
           link
-          @click="$store.dispatch('updateBikeWorkout', workout);navTo('bike-workout')"
+          @click="$store.dispatch('updateBikeWorkout', workout);navTo(BIKE_WORKOUT_ROUTE_NAME)"
         >
           <v-card-title>
             {{ workout.length }}
@@ -41,7 +41,7 @@
 <script>
 import { APIService } from '@/services/api-service.js'
 const apiService = new APIService()
-const BIKE_WORKOUT_ROUTE_NAME = 'digital-cookbook-recipe'
+const BIKE_WORKOUT_ROUTE_NAME = 'bike-workout'
 export default {
   name: 'recipe-list',
   data: () => ({

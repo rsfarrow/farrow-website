@@ -25,6 +25,10 @@ const WORKOUTS_BIKE_ROUTE = '/workouts/bike'
 const WORKOUTS_BIKE_NAME = 'bike-workout'
 const WORKOUTS_BIKE_LIST_ROUTE = '/workouts/bike/list'
 const WORKOUTS_BIKE_LIST_NAME = 'bike-workout-list'
+const WORKOUTS_BOXING_ROUTE = '/workouts/boxing-timer'
+const WORKOUTS_BOXING_NAME = 'boxing-timer'
+const WORKOUTS_BOXING_LIST_ROUTE = '/workouts/boxing-timer-list'
+const WORKOUTS_BOXING_LIST_NAME = 'boxing-timer-list'
 const Whack = () => import('./views/side-projects/whack-a-mole/whack-a-mole.vue')
 const Highscore = () => import('./views/side-projects/whack-a-mole/highscores.vue')
 const routes = [
@@ -134,7 +138,7 @@ const routes = [
     }
   },
   {
-    path: WORKOUTS_BIKE_LIST_ROUTE,
+    path: WORKOUTS_BIKE_LIST_ROUTE, // WORKOUTS_BOXING_ROUTE
     name: WORKOUTS_BIKE_LIST_NAME,
     component: () => import('./views/side-projects/bike-workouts/bike-workout-list.vue'),
     beforeEnter: (to, from, next) => {
@@ -143,6 +147,29 @@ const routes = [
       store.dispatch('updateShowSideMenu', false)
       next()
     }
+  },
+  {
+    path: WORKOUTS_BOXING_ROUTE,
+    name: WORKOUTS_BOXING_NAME,
+    component: () => import('./views/side-projects/boxing-timer/boxing-timer.vue'),
+    beforeEnter: (to, from, next) => {
+      store.dispatch('updateShowAppBar', true)
+      store.dispatch('updateGlobalTitle', 'Boxing Timer')
+      store.dispatch('updateShowSideMenu', false)
+      next()
+    }
+  },
+  {
+    path: WORKOUTS_BOXING_LIST_ROUTE,
+    name: WORKOUTS_BOXING_LIST_NAME,
+    component: () => import('./views/side-projects/boxing-timer/boxing-timer-list.vue'),
+    beforeEnter: (to, from, next) => {
+      store.dispatch('updateShowAppBar', true)
+      store.dispatch('updateGlobalTitle', 'Boxing Timer')
+      store.dispatch('updateShowSideMenu', false)
+      next()
+    }
+
   }
 
 ]
