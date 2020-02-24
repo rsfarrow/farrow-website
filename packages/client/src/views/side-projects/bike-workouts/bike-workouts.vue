@@ -156,10 +156,7 @@ export default {
   methods: {
     startWorkout () {
       if (!this.workoutStarted) {
-        document.addEventListener('click', function enableNoSleep () {
-          document.removeEventListener('click', enableNoSleep, false)
-          this.noSleep.enable()
-        }, false)
+        this.noSleep.enable()
         this.timerInterval = setInterval(() => {
           this.timePassed++
           this.timeLeft--
