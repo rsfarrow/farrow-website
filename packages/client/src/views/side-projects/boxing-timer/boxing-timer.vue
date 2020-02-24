@@ -3,31 +3,39 @@
            style="height: 100%"
   >
     <v-container>
-      <v-row align="center" justify="space-between">
+      <v-row align="center"
+             justify="space-between"
+             class="grey--text text--lighten-2 headline"
+      >
         <v-col>
           {{ roundDesc }}
         </v-col>
-        <v-col class="text-right">
+        <v-col class="text-right ">
           {{ `Round ${roundIndex} / ${numOfRounds || workout.length}` }}
         </v-col>
       </v-row>
       <v-row>
-        <v-col v-if="status !== DONE_ROUND">
+        <v-col v-if="status !== DONE_ROUND" class="grey--text text--lighten-2 title">
           {{ (workout[roundIndex - 1] || {}).desc || '' }}
         </v-col>
       </v-row>
-      <v-row>
+      <v-row align="center" justify="center">
         <v-col>
           <v-card :color="backgroundCard"
                   min-height="350"
+                  elevation="0"
                   style="border: thin solid white !important"
           >
-            <v-card-text class="text-center" align="center">
-              ROUND
-              <br>
-              {{ roundIndex }}
-              <br>
-              {{ formattedTimeLeft }}
+            <v-card-text class="text-center display-3 white--text d-flex" style="height: 350px;">
+              <div class="my-auto mx-auto">
+                <span>
+                  ROUND
+                  <br>
+                  {{ roundIndex }}
+                  <br>
+                  <span class="display-4">{{ formattedTimeLeft }}</span>
+                </span>
+              </div>
             </v-card-text>
           </v-card>
         </v-col>
@@ -78,7 +86,9 @@
  *
  * (Stop)                          (Pause/Start)
  */
-
+/**
+ * TODO: Add audio sounds for starting bell, warning, ending bell?
+ */
 import { mapGetters } from 'vuex'
 import NoSleep from 'nosleep.js'
 /** Time constants */
@@ -120,7 +130,10 @@ export default {
     STOP_ICON,
     DONE_ROUND,
     status: INIT_ROUND,
-    noSleep: {}
+    noSleep: {},
+    voiceSupport: false,
+    voices: {},
+    voiceMessage: {}
 
   }),
   computed: {
@@ -168,10 +181,22 @@ export default {
       }
     }
   },
+  beforeRouteLeave (to, from, next) {
+    this.noSleep.disable() // Just make sure that the wake lock is turned off
+    next()
+  },
   mounted () {
     // run this intially to set up everything.
     this.nextRound()
     this.noSleep = new NoSleep()
+    if ('speechSynthesis' in window) {
+      this.voiceSupport = true
+      setTimeout(() => {
+        this.voices = window.speechSynthesis.getVoices()
+        this.voiceMessage = new SpeechSynthesisUtterance()
+        this.voiceMessage.voice = this.voices[51] // TODO: Improvement, pick your voice
+      }, 500)
+    }
   },
   methods: {
     /**
@@ -238,10 +263,7 @@ export default {
      * Aditionally stops the background if it's alternating
      */
     nextRound () {
-      console.log('nextRound: ', this.timeLeft)
-      console.log('nextRound: ', this.initialCountdown)
       setTimeout(() => {
-        console.log('nextRound, timeout: ', this.initialCountdown)
       }, 500)
       if (this.status === INIT_ROUND && !this.workoutStarted) {
         this.timeLeft = this.initialCountdown
@@ -264,6 +286,11 @@ export default {
           this.status = REST_ROUND
           this.restRound = true
         }
+      }
+      if (this.voiceSupport) {
+        this.voiceMessage.text = this.workout[this.roundIndex] ? this.workout[this.roundIndex].desc : this.roundDesc
+        window.speechSynthesis.speak(this.voiceMessage)
+        console.log('talking', this.voiceMessage.text)
       }
       this.stopBackground()
       this.timePassed = 0

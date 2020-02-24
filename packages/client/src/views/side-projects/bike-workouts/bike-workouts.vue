@@ -149,6 +149,10 @@ export default {
       return this.timeLeft === ZERO_SECONDS
     }
   },
+  beforeRouteLeave (to, from, next) {
+    this.noSleep.disable() // Just make sure that the wake lock is turned off
+    next()
+  },
   mounted () {
     this.getTotalTime()
     this.noSleep = new NoSleep()
