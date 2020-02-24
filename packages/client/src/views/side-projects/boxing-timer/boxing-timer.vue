@@ -16,7 +16,7 @@
       </v-row>
       <v-row>
         <v-col v-if="status !== DONE_ROUND" class="grey--text text--lighten-2 title">
-          {{ (workout[roundIndex - 1] || {}).desc || '' }}
+          {{ (workout[restRound ? roundIndex : roundIndex - 1] || {}).desc || '' }}
         </v-col>
       </v-row>
       <v-row align="center" justify="center">
@@ -66,6 +66,9 @@
         </v-col>
       </v-row>
     </v-container>
+    <audio ref="audioStart" src="./../../../../public/bell-start.wav" />
+    <audio ref="audioEnd" src="./../../../../public/bell.wav" />
+    <audio ref="audioWarning" src="./../../../../public/warning.wav" />
   </v-sheet>
 </template>
 <script>
@@ -173,7 +176,8 @@ export default {
   },
   watch: {
     timeLeft () {
-      if (this.timeLeft < 10 && !this.restRound && !this.backgroundInterval) {
+      if (this.timeLeft <= 10 && !this.restRound && !this.backgroundInterval) {
+        this.$refs.audioWarning.play()
         this.alternateColors()
       }
       if (this.timeLeft === 0) {
@@ -191,11 +195,12 @@ export default {
     this.noSleep = new NoSleep()
     if ('speechSynthesis' in window) {
       this.voiceSupport = true
-      setTimeout(() => {
-        this.voices = window.speechSynthesis.getVoices()
+      let s = this.setSpeech()
+      s.then((voices) => {
+        this.voices = voices
         this.voiceMessage = new SpeechSynthesisUtterance()
-        this.voiceMessage.voice = this.voices[51] // TODO: Improvement, pick your voice
-      }, 500)
+        this.voiceMessage.voice = this.voices[50] // TODO: Improvement, pick your voice
+      })
     }
   },
   methods: {
@@ -207,6 +212,9 @@ export default {
      */
     startOrPauseTime () {
       if (!this.workoutStarted && this.status !== DONE_ROUND) {
+        if (this.status === INIT_ROUND) {
+          this.readDesc(true)
+        }
         this.noSleep.enable()
         this.timerInterval = setInterval(() => {
           this.timePassed++
@@ -263,16 +271,19 @@ export default {
      * Aditionally stops the background if it's alternating
      */
     nextRound () {
-      setTimeout(() => {
-      }, 500)
       if (this.status === INIT_ROUND && !this.workoutStarted) {
+        this.readDesc(true)
         this.timeLeft = this.initialCountdown
       } else if (this.status === INIT_ROUND && this.workoutStarted) {
+        this.$refs.audioStart.play()
+        this.readDesc()
         this.timeLeft = this.roundLength || this.workout[this.roundIndex].roundLength
         this.roundIndex++
         this.status = FIGHT_ROUND
         this.restRound = false
       } else if (this.status === REST_ROUND) {
+        this.$refs.audioStart.play()
+        this.readDesc()
         this.timeLeft = this.roundLength || this.workout[this.roundIndex].roundLength
         this.roundIndex++
         this.status = FIGHT_ROUND
@@ -286,12 +297,10 @@ export default {
           this.status = REST_ROUND
           this.restRound = true
         }
+        this.$refs.audioEnd.play()
+        this.readDesc(true)
       }
-      if (this.voiceSupport) {
-        this.voiceMessage.text = this.workout[this.roundIndex] ? this.workout[this.roundIndex].desc : this.roundDesc
-        window.speechSynthesis.speak(this.voiceMessage)
-        console.log('talking', this.voiceMessage.text)
-      }
+      // this.readDesc()
       this.stopBackground()
       this.timePassed = 0
     },
@@ -304,6 +313,30 @@ export default {
         this.backgroundInterval = null
       }
       this.setBackground()
+    },
+    readDesc (restRound) {
+      if (this.voiceSupport && this.workout[this.roundIndex]) {
+        this.voiceMessage.voice = this.voices[50]
+        this.voiceMessage.text = restRound ? 'Coming up: ' + this.workout[this.roundIndex].desc : this.workout[this.roundIndex].desc
+        setTimeout(() => {
+          window.speechSynthesis.speak(this.voiceMessage)
+        }, 2000)
+      }
+    },
+    setSpeech () {
+      return new Promise(
+        function (resolve, reject) {
+          let synth = window.speechSynthesis
+          let getVoicesInterval
+          getVoicesInterval = setInterval(() => {
+            let voices = synth.getVoices()
+            if (voices.length !== 0) {
+              resolve(voices)
+              clearInterval(getVoicesInterval)
+            }
+          }, 10)
+        }
+      )
     },
     navTo (path) {
       let self = this
