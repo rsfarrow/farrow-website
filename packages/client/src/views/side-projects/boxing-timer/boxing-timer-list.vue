@@ -344,7 +344,8 @@ export default {
       restLength: 30,
       formattedInitialCoundown: '0:15',
       initialCountdown: 15,
-      quitPopup: false
+      quitPopup: false,
+      workout: []
     },
     show: [],
     showCustom: false,

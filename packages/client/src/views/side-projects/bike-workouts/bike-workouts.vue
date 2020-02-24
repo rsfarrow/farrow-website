@@ -86,6 +86,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { NoSleep } from 'nosleep.js'
 const SECONDS_IN_MINUTE = 60
 const MILISECOND_IN_SECOND = 1000
 const ZERO_SECONDS = 0
@@ -126,7 +127,8 @@ export default {
         color: 'red',
         intensity: 'Very High'
       }
-    ]
+    ],
+    noSleep: {}
   }),
   computed: {
     ...mapGetters(['bikeWorkout']),
@@ -149,16 +151,22 @@ export default {
   },
   mounted () {
     this.getTotalTime()
+    this.noSleep = new NoSleep()
   },
   methods: {
     startWorkout () {
       if (!this.workoutStarted) {
+        document.addEventListener('click', function enableNoSleep () {
+          document.removeEventListener('click', enableNoSleep, false)
+          this.noSleep.enable()
+        }, false)
         this.timerInterval = setInterval(() => {
           this.timePassed++
           this.timeLeft--
         }, MILISECOND_IN_SECOND)
       } else {
         clearInterval(this.timerInterval)
+        this.noSleep.disable()
       }
       this.workoutStarted = !this.workoutStarted
     },

@@ -80,6 +80,7 @@
  */
 
 import { mapGetters } from 'vuex'
+import { NoSleep } from 'nosleep.js'
 /** Time constants */
 const SECONDS_IN_MINUTE = 60
 const BASE_TEN = 10
@@ -118,7 +119,8 @@ export default {
     workoutFinished: false,
     STOP_ICON,
     DONE_ROUND,
-    status: INIT_ROUND
+    status: INIT_ROUND,
+    noSleep: {}
 
   }),
   computed: {
@@ -169,6 +171,7 @@ export default {
   mounted () {
     // run this intially to set up everything.
     this.nextRound()
+    this.noSleep = new NoSleep()
   },
   methods: {
     /**
@@ -179,6 +182,10 @@ export default {
      */
     startOrPauseTime () {
       if (!this.workoutStarted && this.status !== DONE_ROUND) {
+        document.addEventListener('click', function enableNoSleep () {
+          document.removeEventListener('click', enableNoSleep, false)
+          this.noSleep.enable()
+        }, false)
         this.timerInterval = setInterval(() => {
           this.timePassed++
           this.timeLeft--
@@ -186,6 +193,7 @@ export default {
         this.workoutStarted = true
       } else {
         this.stopBackground()
+        this.noSleep.disable()
         clearInterval(this.timerInterval)
         this.workoutStarted = false
       }
