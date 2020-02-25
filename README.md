@@ -8,13 +8,14 @@ Todos:
     - Refine the DB calls
     - ~Add API calls to the API Service~
   - Tic-Tac-Toe side project
-    - Port over UI
-    - General improvements
+    - ~Port over UI~
+    - ~General improvements~
+    - Improvement: Add AI to play with
   - Create boxing-timer
     - ~Initial timer: Set number of rounds, length of round, length of rest~
     - ~Improvements: Create pre-defined routines, based on what you want to work on~
     - ~Improvements: Have a voice read off the round combination~
-    - Improvements: API Call to get and add the workouts & integrate the API on the frontend
+    - ~Improvements: API Call to get and add the workouts & integrate the API on the frontend~
   - Bike Workouts
     - ~Create Initial bike workout page (list and acutal workout page)~
     - ~Add APIs to get bike list and bike workout from DB~
@@ -40,7 +41,7 @@ Todos:
   - General
     - ~Update to HTTPS~
     - Update startup flow with Lerna
-    - Add dark mode option to the navigation menu
+    - ~Add dark mode option to the navigation menu~
     - Update images to use AWS storage
     - Add some constant files
-    
+

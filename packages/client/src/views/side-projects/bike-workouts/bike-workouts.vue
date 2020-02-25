@@ -86,7 +86,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import { NoSleep } from 'nosleep.js'
+import NoSleep from 'nosleep.js'
 const SECONDS_IN_MINUTE = 60
 const MILISECOND_IN_SECOND = 1000
 const ZERO_SECONDS = 0

@@ -3,6 +3,7 @@ import { recipeList, recipeExpansion, recipePage, createRecipe } from '../graphq
 const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://farrow.herokuapp.com' : 'http://localhost:4000'
 const GRAPHQL_URL = '/graphql'
 const GET_BIKE_URL = '/bike-workouts'
+const GET_BOXING_URL = '/boxing-workouts'
 const HIGHSCORE_URL = '/highscores'
 
 // TODO: Do some checking on the http status and such.
@@ -27,6 +28,9 @@ export class APIService {
   }
   async getBikeWorkouts () {
     return this.sendAxios(BASE_URL + GET_BIKE_URL, 'GET')
+  }
+  async getBoxingWorkouts () {
+    return this.sendAxios(BASE_URL + GET_BOXING_URL, 'GET')
   }
   async getHighscores () {
     const url = `${BASE_URL}${HIGHSCORE_URL}`

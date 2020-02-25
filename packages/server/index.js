@@ -7,6 +7,7 @@ const path = require('path')
 const expressStaticGzip = require('express-static-gzip')
 
 const bike = require('./bike-workouts/index')
+const boxing = require('./boxing-workouts/index')
 const wam = require('./whack-a-mole/highscores/index')
 const graphqlSchema = require('./graphql/schema/index')
 const graphqlResolvers = require('./graphql/resolvers/index')
@@ -60,6 +61,7 @@ app.use('/', expressStaticGzip(path.join(__dirname, '../client/dist'), {
 // Regular APIs
 app.use(bike.routes)
 app.use(wam.routes)
+app.use(boxing.routes)
 
 // GraphQL
 app.use('/graphql', graphqlHTTP({

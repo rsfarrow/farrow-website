@@ -244,98 +244,17 @@
 </template>
 <script>
 // TODO: Create an API to get the workouts
-// import { APIService } from '@/services/api-service.js'
-// const apiService = new APIService()
+import { APIService } from '@/services/api-service.js'
+const apiService = new APIService()
 
 /** Time constants */
 const SECONDS_IN_MINUTE = 60
 const BASE_TEN = 10
 
-// const BIKE_WORKOUT_ROUTE_NAME = 'bike-workout'
 export default {
-  name: 'Boxing-Workout-List',
+  name: 'boxing-workout-list',
   data: () => ({
-    // BIKE_WORKOUT_ROUTE_NAME,
-    workoutList: [
-      {
-        title: 'Burns Burnout',
-        workoutLength: '42 min',
-        desc: 'Classic fight camp bag workout.',
-        roundLength: 180,
-        restLength: 30,
-        workout: [
-          {
-            roundLength: 180,
-            desc: 'Right Low - 90% - 100% (With checks)'
-          },
-          {
-            roundLength: 180,
-            desc: 'Left Low - 90% - 100% (With checks)'
-          },
-          {
-            roundLength: 180,
-            desc: 'Jab / Cross / Hook - 90%-100% (Anyway you want)'
-          },
-          {
-            roundLength: 180,
-            desc: 'Double Right Mid Kick'
-          },
-          {
-            roundLength: 180,
-            desc: 'Double Left Mid Kick'
-          },
-          {
-            roundLength: 180,
-            desc: 'Knees / Push Kicks'
-          },
-          {
-            roundLength: 180,
-            desc: 'Freestyle - Offense / Defense'
-          },
-          {
-            roundLength: 180,
-            desc: 'Freestyle - Offense / Defense'
-          },
-          {
-            roundLength: 180,
-            desc: 'Freestyle - Offense / Defense'
-          },
-          {
-            roundLength: 180,
-            desc: 'Freestyle - Offense / Defense'
-          },
-          {
-            roundLength: 180,
-            desc: 'Freestyle - Offense / Defense'
-          },
-          {
-            roundLength: 180,
-            desc: 'Freestyle - Offense / Defense'
-          }
-        ]
-      },
-      {
-        title: 'Bag Freestyle and Weights',
-        workoutLength: '6 min',
-        desc: 'Hit that bag hard, but hit the weights too',
-        // roundLength: 180,
-        restLength: 5,
-        workout: [
-          {
-            roundLength: 60,
-            desc: 'Freestyle Punches on the bag'
-          },
-          {
-            roundLength: 30,
-            desc: 'Hip Thrusts to Bench Press (Use a plate or kettle bell)'
-          },
-          {
-            roundLength: 30,
-            desc: 'Kettle bell thrusts'
-          }
-        ]
-      }
-    ],
+    workoutList: [],
     customWorkout: {
       numOfRounds: 6,
       formattedRoundLength: '3:00',
@@ -354,16 +273,14 @@ export default {
   }),
   watch: {
     showWorkout () {
-      if (!this.showWorkout) {
-        this.showCustom = false
-      }
+      if (!this.showWorkout) this.showCustom = false
     }
   },
   mounted () {
-    this.show = Array(this.workoutList.length).fill(false)
-    // apiService.getBikeWorkouts().then(res => {
-    //   this.workoutList = res
-    // })
+    apiService.getBoxingWorkouts().then(res => {
+      this.workoutList = res
+      this.show = Array(this.workoutList.length).fill(false)
+    })
   },
   methods: {
     navTo (path) {
@@ -377,7 +294,6 @@ export default {
       this.show.splice(index, 1, !this.show[index])
     },
     showCustomWorkout () {
-      console.log('show custom workout')
       this.showCustom = true
       this.showWorkout = true
     },
@@ -389,7 +305,6 @@ export default {
       }
     },
     changeTimer (rawVariable, variable, add, interval) {
-      console.log('changeTimer: ', rawVariable, variable, add, interval)
       if (add) {
         this.customWorkout[rawVariable] += interval
         this.customWorkout[variable] = this.formatTime(this.customWorkout[rawVariable])

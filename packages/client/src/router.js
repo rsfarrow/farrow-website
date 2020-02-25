@@ -19,6 +19,8 @@ const DIGITAL_COOKBOOK_NEW_RECIPE_ROUTE = '/side-projects/digital-cookbook/recip
 const DIGITAL_COOKBOOK_NEW_RECIPE_NAME = 'digital-cookbook-recipe-add'
 const WHACK_ROUTE = '/side-projects/whack-a-mole'
 const WHACK_NAME = 'whack-a-mole'
+const TTT_ROUTE = '/side-projects/tic-tac-toe'
+const TTT_NAME = 'tic-tac-toe'
 const HIGHSCORE_NAME = 'highscores'
 const HIGHSCORE_ROUTE = '/highscores'
 const WORKOUTS_BIKE_ROUTE = '/workouts/bike'
@@ -31,6 +33,7 @@ const WORKOUTS_BOXING_LIST_ROUTE = '/workouts/boxing-timer-list'
 const WORKOUTS_BOXING_LIST_NAME = 'boxing-timer-list'
 const Whack = () => import('./views/side-projects/whack-a-mole/whack-a-mole.vue')
 const Highscore = () => import('./views/side-projects/whack-a-mole/highscores.vue')
+const TTT = () => import('./views/side-projects/tic-tac-toe/tic-tac-toe.vue')
 const routes = [
   {
     path: HOME_ROUTE,
@@ -99,6 +102,17 @@ const routes = [
       // store.getters.loggedIn ? next() : next({ name: HOME_NAME })
       store.dispatch('updateShowAppBar', true)
       store.dispatch('updateGlobalTitle', 'Whack-A-Mole')
+      store.dispatch('updateShowSideMenu', false)
+      next()
+    }
+  },
+  {
+    path: TTT_ROUTE,
+    name: TTT_NAME,
+    component: TTT,
+    beforeEnter: (to, from, next) => {
+      store.dispatch('updateShowAppBar', true)
+      store.dispatch('updateGlobalTitle', 'Tic-Tac-Toe')
       store.dispatch('updateShowSideMenu', false)
       next()
     }

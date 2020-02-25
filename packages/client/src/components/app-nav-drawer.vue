@@ -29,26 +29,6 @@
           </v-list-item>
         </template>
         <template v-else>
-          <!-- <v-list-group
-            :key="item.title"
-            :prepend-icon="item.icon"
-            subgroup
-            value="true"
-          >
-            <template v-slot:activator>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </template>
-
-            <v-list-item
-              v-for="(subgroup, i) in item.group"
-              :key="i"
-              link
-            >
-              <v-list-item-content>
-                <v-list-item-title v-text="subgroup.title" />
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-group> -->
           <v-list-group
             :key="item.title"
             :prepend-icon="item.icon"
@@ -79,9 +59,24 @@
         </template>
       </template>
     </v-list>
+    <!-- <v-spacer /> -->
+    <!-- class="ml-auto mt-auto px-0" -->
+    <v-footer
+      absolute
+      align-end
+      color="transparent"
+    >
+      <v-spacer />
+      <v-switch
+        v-model="internalDarkMode"
+        append-icon="mdi-theme-light-dark"
+        @change="changeDarkMode()"
+      />
+    </v-footer>
   </v-navigation-drawer>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 
 const GITHUB_PROFILE = 'https://github.com/rsfarrow'
 const LINKEDIN_PROFILE = 'https://www.linkedin.com/in/sam-farrow/'
@@ -99,7 +94,7 @@ export default {
             { title: 'View All', icon: 'mdi-view-list', disabled: false, path: 'side-projects', internal: true },
             { title: 'Digital Cookbook', icon: 'mdi-book', disabled: false, path: 'digital-cookbook-list', internal: true },
             { title: 'Whack-a-Mole', icon: 'mdi-hammer', disabled: false, path: 'whack-a-mole', internal: true },
-            { title: 'Tic Tac Toe', icon: 'mdi-alpha-x-box-outline', disabled: true, path: '', internal: true },
+            { title: 'Tic Tac Toe', icon: 'mdi-alpha-x-box-outline', disabled: false, path: 'tic-tac-toe', internal: true },
             { title: 'Boxing Timer', icon: 'mdi-boxing-glove', disabled: false, path: 'boxing-timer-list', internal: true },
             { title: 'Bike Workouts', icon: 'mdi-bike', disabled: false, path: 'bike-workout-list', internal: true }
 
@@ -108,7 +103,8 @@ export default {
         { title: 'Email', icon: 'mdi-email', path: EMAIL_LINK, internal: false },
         { title: 'LinkedIn', icon: 'mdi-linkedin-box', path: LINKEDIN_PROFILE, internal: false },
         { title: 'About', icon: 'mdi-face-profile', path: 'about', internal: true }
-      ]
+      ],
+      internalDarkMode: false
     }
   },
   computed: {
@@ -117,12 +113,25 @@ export default {
     },
     face () {
       return require('../../public/img/it-me.png')
+    },
+    ...mapGetters(['darkMode'])
+  },
+  watch: {
+    darkMode () {
+      this.internalDarkMode = this.darkMode
     }
+  },
+  mounted () {
+    this.internalDarkMode = this.darkMode
   },
   methods: {
     navTo (path, internal) {
       let self = this
       this.$store.dispatch('navTo', { path, internal, self })
+    },
+    changeDarkMode () {
+      this.$store.dispatch(this.darkMode ? 'turnOffDarkMode' : 'turnOnDarkMode')
+      this.$vuetify.theme.dark = this.darkMode
     }
   }
 }
