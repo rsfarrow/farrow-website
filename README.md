@@ -11,10 +11,10 @@ Todos:
     - Port over UI
     - General improvements
   - Create boxing-timer
-    - Initial timer: Set number of rounds, length of round, length of rest
-    - Improvements: Create pre-defined routines, based on what you want to work on
-    - Improvements: Have a voice read off the round combination
-    - Improvements: Settings to change bell sound, warning sound, warning length (10s vs 15s), voice, etc.
+    - ~Initial timer: Set number of rounds, length of round, length of rest~
+    - ~Improvements: Create pre-defined routines, based on what you want to work on~
+    - ~Improvements: Have a voice read off the round combination~
+    - Improvements: API Call to get and add the workouts & integrate the API on the frontend
   - Bike Workouts
     - ~Create Initial bike workout page (list and acutal workout page)~
     - ~Add APIs to get bike list and bike workout from DB~
