@@ -92,6 +92,13 @@ export default new Vuex.Store({
     updateBikeWorkout (state, workout) {
       state.bikeWorkout = workout
     },
+    updateBikeWorkoutTimer (state, time) {
+      state.bikeWorkout = { ...state.bikeWorkout, ...time }
+    },
+    clearBikeWorkoutTimer (state) {
+      delete state.bikeWorkout.timeLeft
+      delete state.bikeWorkout.timePassed
+    },
     updateBoxingWorkout (state, workout) {
       state.boxingWorkout = workout
     }
@@ -151,6 +158,12 @@ export default new Vuex.Store({
     },
     updateBoxingWorkout ({ commit }, boxingWorkout) {
       commit('updateBoxingWorkout', boxingWorkout)
+    },
+    updateBikeTimers ({ commit }, timers) {
+      commit('updateBikeWorkoutTimer', timers)
+    },
+    clearBikeTimers ({ commit }) {
+      commit('clearBikeWorkoutTimer')
     }
   },
   modules: {

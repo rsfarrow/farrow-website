@@ -1,5 +1,5 @@
 <template>
-  <div class="background lighten-1">
+  <div class="background lighten-1 workouts">
     <!-- TODO: Add a title to the page <h1>test test</h1> -->
     <v-container>
       <v-row justify="space-between">
@@ -82,13 +82,53 @@
         </v-col>
       </v-row>
     </v-container>
+    <v-dialog
+      v-model="resumeWorkoutPopup"
+      persistent
+      max-width="75%"
+    >
+      <v-card>
+        <v-card-title class="headline">
+          Resume this workout?
+        </v-card-title>
+
+        <v-card-text>
+          {{ `We found a workout in progress: \n
+          Time passed: ${formattedTime} \n
+          Time left: ${formattedTimeLeft} \n \n
+
+          Do you want to resume?` }}
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer />
+
+          <v-btn
+            color="accent darken-1"
+            text
+            @click="resumeOrRestartWorkout(true)"
+          >
+            Restart
+          </v-btn>
+
+          <v-btn
+            color="primary darken-1"
+            text
+            @click="resumeOrRestartWorkout()"
+          >
+            Resume
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import NoSleep from 'nosleep.js'
 const SECONDS_IN_MINUTE = 60
-const MILISECOND_IN_SECOND = 1000
+const MILISECOND_IN_SECOND = 10
+// const MILISECOND_IN_SECOND = 1000
 const ZERO_SECONDS = 0
 const HALF_MINUTE = 30
 const BASE_TEN = 10
@@ -128,7 +168,8 @@ export default {
         intensity: 'Very High'
       }
     ],
-    noSleep: {}
+    noSleep: {},
+    resumeWorkoutPopup: false
   }),
   computed: {
     ...mapGetters(['bikeWorkout']),
@@ -154,6 +195,9 @@ export default {
     next()
   },
   mounted () {
+    if (this.bikeWorkout.timePassed || this.bikeWorkout.timeLeft) {
+      this.resumeWorkoutPopup = true
+    }
     this.getTotalTime()
     this.noSleep = new NoSleep()
   },
@@ -164,6 +208,7 @@ export default {
         this.timerInterval = setInterval(() => {
           this.timePassed++
           this.timeLeft--
+          this.$store.dispatch('updateBikeTimers', { timeLeft: this.timeLeft, timePassed: this.timePassed })
         }, MILISECOND_IN_SECOND)
       } else {
         clearInterval(this.timerInterval)
@@ -180,8 +225,8 @@ export default {
           return (((this.timePassed - cycle.whenToStart) / this.totalTime) * PERCENT)
         }
       })
-      this.timeLeft = this.totalTime
-      this.timePassed = ZERO_SECONDS
+      this.timeLeft = this.bikeWorkout.timeLeft || this.totalTime
+      this.timePassed = this.bikeWorkout.timePassed || ZERO_SECONDS
     },
     checkZone (timePassed) {
       if (this.timeLeft === ZERO_SECONDS) {
@@ -201,7 +246,21 @@ export default {
       let degreePerSecond = 360 / this.totalTime
       startRotate = (degreePerSecond * cycle.whenToStart) - 90
       return startRotate
+    },
+    resumeOrRestartWorkout (restart) {
+      this.resumeWorkoutPopup = false
+      if (restart) {
+        this.timeLeft = this.totalTime
+        this.timePassed = ZERO_SECONDS
+      } else {
+        this.startWorkout()
+      }
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+  .workouts {
+    overflow: hidden;
+  }
+</style>

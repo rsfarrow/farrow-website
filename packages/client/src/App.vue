@@ -14,14 +14,20 @@
 <script>
 import AppBar from '@/components/app-bar'
 import AppNav from '@/components/app-nav-drawer'
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'Farrow-Website',
   components: { AppBar, AppNav },
 
   data: () => ({
     //
-  })
+  }),
+  computed: {
+    ...mapGetters(['darkMode'])
+  },
+  mounted () {
+    this.$vuetify.theme.dark = this.darkMode
+  }
 }
 </script>
 <style lang="scss" scoped>
