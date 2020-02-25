@@ -42,4 +42,5 @@ Todos:
     - Update startup flow with Lerna
     - Add dark mode option to the navigation menu
     - Update images to use AWS storage
+    - Add some constant files
     
