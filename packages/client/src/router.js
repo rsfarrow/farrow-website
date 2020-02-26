@@ -36,6 +36,16 @@ const Highscore = () => import('./views/side-projects/whack-a-mole/highscores.vu
 const TTT = () => import('./views/side-projects/tic-tac-toe/tic-tac-toe.vue')
 const routes = [
   {
+    path: '*',
+    component: Landing,
+    beforeEnter: (to, from, next) => {
+      store.dispatch('updateShowAppBar', false)
+      store.dispatch('updateShowSideMenu', false)
+      store.dispatch('updateGlobalTitle')
+      next()
+    }
+  },
+  {
     path: HOME_ROUTE,
     name: HOME_NAME,
     component: Landing,
