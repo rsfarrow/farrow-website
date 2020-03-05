@@ -13,7 +13,7 @@
             v-if="recipe.img"
             class="mx-auto"
             height="200"
-            :src="img(recipe.img)"
+            :src="recipe.img"
           />
           <span class="display-2 font-weight-bold accent--text text--darken-3">{{ recipe.name }}</span>
           <v-divider class="my-3" />

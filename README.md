@@ -16,6 +16,7 @@ Todos:
     - ~Improvements: Create pre-defined routines, based on what you want to work on~
     - ~Improvements: Have a voice read off the round combination~
     - ~Improvements: API Call to get and add the workouts & integrate the API on the frontend~
+    - Improvements: Create a log of combos and have them get randomly called out
   - Bike Workouts
     - ~Create Initial bike workout page (list and acutal workout page)~
     - ~Add APIs to get bike list and bike workout from DB~
@@ -31,17 +32,20 @@ Todos:
     - ~Improvements for mobile~
     - ~Update GraphQL to search by category~
     - ~Add a form to add recipes~
+    - ~Add image upload capabilities for new recipes~
+    - ~Verify image name before upload~
     - Add more recipes
-    - Add image upload capabilities for new recipes
-    - Verify image name before upload
     - Add Ratings / Comments
     - Add Likes
     - Add shopping list page
     - ... more to come!
+  - Future Project Ideas:
+    - Algorithms visualizer -- Show how the algorithms work, with some learning info on each
+    - Battleship -- Create the fun game and an AI to play against (large)
   - General
     - ~Update to HTTPS~
-    - Update startup flow with Lerna
     - ~Add dark mode option to the navigation menu~
-    - Update images to use AWS storage
+    - ~Update images to use AWS storage~
+    - Update startup flow with Lerna
     - Add some constant files
 

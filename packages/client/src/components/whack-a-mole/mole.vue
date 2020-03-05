@@ -28,16 +28,10 @@ export default {
   },
   data: () => ({
     active: false,
-    timeout: ''
+    timeout: '',
+    bush: 'https://farrow-website.s3.amazonaws.com/bush.png',
+    moleFace: 'https://farrow-website.s3.amazonaws.com/mole.png'
   }),
-  computed: {
-    moleFace () {
-      return require('../../../public/img/mole.png')
-    },
-    bush () {
-      return require('../../../public/img/bush.png')
-    }
-  },
   methods: {
     startTime () {
       this.timeout = setInterval(() => {

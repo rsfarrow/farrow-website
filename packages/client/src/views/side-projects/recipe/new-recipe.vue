@@ -106,12 +106,15 @@
           md="6"
           lg="4"
         >
-          <v-text-field
-            v-model="image"
-            disabled
-            placeholder="Coming soon! For now -- enjoy my face 😜 "
-            hint="Image must be uploaded separately -- coming soon!"
-            label="Image name"
+          <v-file-input
+            ref="fileInput"
+            accept="image/*"
+            label="Photo"
+            messages="Max Size: 1 MB"
+            :error-messages="fileError"
+            clearable
+            show-size
+            @change="handleImage($event)"
           />
         </v-col>
       </v-row>
@@ -171,8 +174,9 @@
           <v-btn
             color="primary"
             class="ml-3"
+            :loading="isLoading"
             @click="saveRecipe()"
-            v-text="'Save'"
+            v-text="isLoading ? '' : 'Save'"
           />
         </v-col>
       </v-row>
@@ -183,6 +187,7 @@
 import { removeItemFromArray } from '@/utils'
 import { APIService } from '@/services/api-service.js'
 const apiService = new APIService()
+const MAX_FILE_SIZE = 1048576
 export default {
   name: 'add-recipe',
   data: () => ({
@@ -200,6 +205,11 @@ export default {
     image: '',
     ingredientsError: '',
     instructionsError: '',
+    fileError: '',
+    base64: '',
+    imgName: '',
+    imgSize: '',
+    isLoading: false,
     rules: {
       required: value => !!value || 'Required field',
       min: v => v.length >= 8 || 'Min 8 characters'
@@ -285,7 +295,6 @@ export default {
       let valid = this.$refs.form.validate() && this.ingredients.length > 0 && this.instructions.length > 0
       if (valid) {
         // so here we are, being all valid and what not
-
         let recipeInput = {
           'name': this.recipeName,
           'desc': this.recipeDesc,
@@ -297,13 +306,25 @@ export default {
           'source': this.source,
           'ingredients': this.ingredients,
           'instructions': this.instructions,
-          'img': this.image
+          'img': this.imgName
         }
-        apiService.createRecipe({ variables: { recipeInput } }).then((res) => {
+        this.isLoading = true
+        this.fileError = ''
+        apiService.uploadImg({ name: this.imgName, size: this.imgSize, img: this.base64 }).then(res => {
           console.log(res)
-          this.$store.dispatch('updateCategory', res.data.createRecipe.category[0])
-          let self = this
-          this.$store.dispatch('navTo', { path: 'digital-cookbook-list', internal: true, self })
+          if (res.success) {
+            recipeInput.img = res.location
+            apiService.createRecipe({ variables: { recipeInput } }).then((res) => {
+              this.isLoading = false
+              console.log(res)
+              this.$store.dispatch('updateCategory', res.data.createRecipe.category[0])
+              let self = this
+              this.$store.dispatch('navTo', { path: 'digital-cookbook-list', internal: true, self })
+            })
+          } else {
+            this.isLoading = false
+            this.fileError = res.message
+          }
         })
       } else {
         console.log('Not valid!')
@@ -318,6 +339,41 @@ export default {
       this.ingredients = ['']
       this.ingredientsError = ''
       this.instructionsError = ''
+    },
+    async handleImage (evt) {
+      // validate size
+      if (evt && evt.size > MAX_FILE_SIZE) {
+        this.fileError = 'Max Size 1 MB'
+        this.$refs.fileInput.clearableCallback()
+      } else if (evt) {
+        this.fileError = ''
+        // this is the start of random uploads
+        // this.imgName = evt.name
+        // this.imgSize = evt.size
+        // this.base64 = await this.toBase64(evt)
+        // const upload = await apiService.uploadImg({ name: this.imgName, size: this.imgSize, img: this.base64 })
+        // console.log(upload)
+        // this is the end of random uploads
+        const imgNameRes = await apiService.validateImgName({ name: evt.name })
+        console.log(imgNameRes)
+        if (imgNameRes.success) {
+          this.imgName = evt.name
+          this.imgSize = evt.size
+          this.base64 = await this.toBase64(evt)
+        } else {
+          this.$refs.fileInput.clearableCallback()
+          this.fileError = imgNameRes.message
+        }
+      }
+    },
+    toBase64 (file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        // reader.readAsBinaryString(file)
+        reader.onload = () => resolve(reader.result)
+        reader.onerror = error => reject(error)
+      })
     }
   }
 }

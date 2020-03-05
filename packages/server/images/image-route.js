@@ -20,7 +20,7 @@ router.post('/upload', async (req, res) => {
 
 router.post('/image-name-validation', async (req, res) => {
   const exists = await imageDb.getImageNames(req.body.name)
-  res.status(200).send({ success: !exists })
+  res.status(200).send({ success: !exists, message: exists ? 'File name exists' : '' })
 })
 
 const uploadFile = async (file, name, size) => {
@@ -44,7 +44,7 @@ const uploadFile = async (file, name, size) => {
     let response = await s3.upload(params).promise()
     if (response) {
       await imageDb.addImageName(name, response.Location)
-      return { success: true }
+      return { success: true, location: response.Location }
     } else {
       return { success: false }
     }

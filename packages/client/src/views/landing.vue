@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-img
-      :src="landingImg"
+      :src="'https://farrow-website.s3.amazonaws.com/landing.jpg'"
       :min-height="'100vh'"
       :min-width="'100%'"
     >

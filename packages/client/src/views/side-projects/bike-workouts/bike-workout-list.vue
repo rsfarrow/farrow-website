@@ -27,7 +27,7 @@
               size="64"
               tile
             >
-              <v-img :src="getImage(workout.img)" />
+              <v-img :src="workout.img" />
             </v-avatar>
           </v-card-title>
           <v-card-text>

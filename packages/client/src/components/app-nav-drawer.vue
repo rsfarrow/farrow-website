@@ -6,7 +6,7 @@
   >
     <v-list-item>
       <v-list-item-avatar>
-        <v-img :src="face" />
+        <v-img :src="'https://farrow-website.s3.amazonaws.com/it-me.png'" />
       </v-list-item-avatar>
 
       <v-list-item-content>

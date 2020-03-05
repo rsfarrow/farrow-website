@@ -76,7 +76,7 @@
         >
           <v-card color="accent lighten-4">
             <v-img
-              :src="img(recipe.img)"
+              :src="recipe.img"
               height="200px"
             />
             <v-card-title>

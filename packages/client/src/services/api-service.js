@@ -5,6 +5,8 @@ const GRAPHQL_URL = '/graphql'
 const GET_BIKE_URL = '/bike-workouts'
 const GET_BOXING_URL = '/boxing-workouts'
 const HIGHSCORE_URL = '/highscores'
+const UPLOAD_IMG_URL = '/upload'
+const IMG_NAME_VALIDATION_URL = '/image-name-validation'
 
 // TODO: Do some checking on the http status and such.
 // TODO: Update the URL
@@ -40,6 +42,16 @@ export class APIService {
     const url = `${BASE_URL}${HIGHSCORE_URL}`
     return this.sendAxios(url, 'POST', payload)
   }
+
+  async uploadImg (payload) {
+    const url = `${BASE_URL}${UPLOAD_IMG_URL}`
+    return this.sendAxios(url, 'POST', payload)
+  }
+  async validateImgName (payload) {
+    const url = `${BASE_URL}${IMG_NAME_VALIDATION_URL}`
+    return this.sendAxios(url, 'POST', payload)
+  }
+
   async sendAxios (uri, method, payload) {
     let token = localStorage.getItem('😎')
     let options = {}

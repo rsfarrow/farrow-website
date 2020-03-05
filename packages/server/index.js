@@ -9,6 +9,7 @@ const expressStaticGzip = require('express-static-gzip')
 const bike = require('./bike-workouts/index')
 const boxing = require('./boxing-workouts/index')
 const wam = require('./whack-a-mole/highscores/index')
+const images = require('./images/index')
 const graphqlSchema = require('./graphql/schema/index')
 const graphqlResolvers = require('./graphql/resolvers/index')
 const isAuth = require('./middleware/is-auth')
@@ -38,7 +39,9 @@ const connectToDB = () => {
 connectToDB()
 
 app.use(cors())
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '5mb' }))
+app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }))
+
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS')
@@ -62,6 +65,7 @@ app.use('/', expressStaticGzip(path.join(__dirname, '../client/dist'), {
 app.use(bike.routes)
 app.use(wam.routes)
 app.use(boxing.routes)
+app.use(images.routes)
 
 // GraphQL
 app.use('/graphql', graphqlHTTP({

@@ -226,7 +226,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .play-area {
-  cursor: url('https://github.com/sfarrowbioiq/whack-a-mole-spf/blob/master/public/img/hammer.png?raw=true'), default;
+  cursor: url('https://farrow-website.s3.amazonaws.com/hammer.png'), default;
 
 }
 </style>

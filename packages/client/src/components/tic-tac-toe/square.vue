@@ -23,6 +23,10 @@ export default {
     numInRow: Number,
     index: Number
   },
+  data: () => ({
+    cross: 'https://farrow-website.s3.amazonaws.com/cross.png',
+    circle: 'https://farrow-website.s3.amazonaws.com/circle.png'
+  }),
   computed: {
     ...mapGetters(['darkMode']),
     flex () {
@@ -58,12 +62,6 @@ export default {
         borderString += 'border-left: none;'
       }
       return borderString
-    },
-    cross () {
-      return require('../../../public/img/cross.png')
-    },
-    circle () {
-      return require('../../../public/img/circle.png')
     }
   }
 }
