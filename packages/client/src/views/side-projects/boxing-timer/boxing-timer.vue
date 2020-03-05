@@ -66,9 +66,9 @@
         </v-col>
       </v-row>
     </v-container>
-    <audio ref="audioStart" src="./../../../../public/bell-start.wav" />
-    <audio ref="audioEnd" src="./../../../../public/bell.wav" />
-    <audio ref="audioWarning" src="./../../../../public/warning.wav" />
+    <audio ref="audioStart" src="https://farrow-website.s3.amazonaws.com/sounds/bell-start.wav" />
+    <audio ref="audioEnd" src="https://farrow-website.s3.amazonaws.com/sounds/bell.wav" />
+    <audio ref="audioWarning" src="https://farrow-website.s3.amazonaws.com/sounds/warning.wav" />
   </v-sheet>
 </template>
 <script>
@@ -134,7 +134,6 @@ export default {
     DONE_ROUND,
     status: INIT_ROUND,
     noSleep: {},
-    voiceSupport: false,
     voices: {},
     voiceMessage: {}
 
@@ -193,15 +192,12 @@ export default {
     // run this intially to set up everything.
     this.nextRound()
     this.noSleep = new NoSleep()
-    if ('speechSynthesis' in window) {
-      this.voiceSupport = true
-      let s = this.setSpeech()
-      s.then((voices) => {
-        this.voices = voices
-        this.voiceMessage = new SpeechSynthesisUtterance()
-        this.voiceMessage.voice = this.voices[50] // TODO: Improvement, pick your voice
-      })
-    }
+    let s = this.setSpeech()
+    s.then((voices) => {
+      this.voices = voices
+      this.voiceMessage = new SpeechSynthesisUtterance()
+      this.voiceMessage.voice = this.voices[50] // TODO: Improvement, pick your voice
+    })
   },
   methods: {
     /**
@@ -315,7 +311,7 @@ export default {
       this.setBackground()
     },
     readDesc (restRound) {
-      if (this.voiceSupport && this.workout[this.roundIndex]) {
+      if (this.workout[this.roundIndex]) {
         this.voiceMessage.voice = this.voices[50]
         this.voiceMessage.text = restRound ? 'Coming up: ' + this.workout[this.roundIndex].desc : this.workout[this.roundIndex].desc
         setTimeout(() => {

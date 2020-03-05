@@ -287,9 +287,6 @@ export default {
       let self = this
       this.$store.dispatch('navTo', { path, internal: true, self })
     },
-    getImage (name) {
-      return require('../../../../public/img/' + name + '.jpg')
-    },
     expand (index) {
       this.show.splice(index, 1, !this.show[index])
     },

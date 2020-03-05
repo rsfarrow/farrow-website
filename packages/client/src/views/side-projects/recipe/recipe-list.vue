@@ -201,13 +201,6 @@ export default {
         this.showMobileMenu = false
       }
     },
-    img (name) {
-      try {
-        return require('../../../../public/img/' + name + '.jpg')
-      } catch {
-        return require('../../../../public/img/it-me.png')
-      }
-    },
     navTo (path, id) {
       if (id) this.$store.dispatch('updateRecipeId', id)
       let self = this

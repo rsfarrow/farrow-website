@@ -111,9 +111,6 @@ export default {
     showMenu () {
       return this.$store.getters.showSideMenu
     },
-    face () {
-      return require('../../public/img/it-me.png')
-    },
     ...mapGetters(['darkMode'])
   },
   watch: {

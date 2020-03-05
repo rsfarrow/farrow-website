@@ -117,13 +117,6 @@ export default {
     EMAIL_LINK,
     LINKEDIN_PROFILE
   }),
-  computed: {
-    landingImg () {
-      return require('../../public/img/landing.jpg')
-    }
-  },
-  mounted () {
-  },
   methods: {
     navTo (path, internal) {
       let self = this
