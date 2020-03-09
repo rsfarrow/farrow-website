@@ -29,6 +29,11 @@
         v-text="'Undo'"
       />
       <v-spacer />
+      <v-switch v-model="computer"
+                :label="`Play With Computer`"
+                @change="restartGame()"
+      />
+      <v-spacer />
       <v-btn
         color="primary"
         @click="restartGame()"
@@ -55,7 +60,8 @@ export default {
     numOfSquares: 0,
     winningCombos: [],
     showSettings: false,
-    winner: null
+    winner: null,
+    computer: false
   }),
   computed: {
 
@@ -70,21 +76,20 @@ export default {
     this.history[0].squares = Array(this.numOfSquares).fill(null)
   },
   methods: {
-    // TODO: Add a 1 player mode (Play with computer)
     handleClick (i) {
-      console.log('handle click entry, get current')
       let current = this.history[this.history.length - 1]
-      console.log('handle click, current: ', current)
       let squares = current.squares.slice()
-      console.log('handle click, squares: ', squares)
       if (!this.winner && !squares[i]) {
         squares[i] = this.xIsNext ? 'X' : 'O'
         this.history.push({ squares: squares })
-        console.log('We put the square in, now history: ', this.history)
         this.xIsNext = !this.xIsNext
         this.stepNumber = this.history.length - 1
-        console.log('We put the square in, new stepNum: ', this.stepNumber)
-        this.winner = this.calculateWinner(squares)
+        this.winner = this.calculateWinner(squares, squares[i])
+        if (this.computer && !this.xIsNext && !this.winner) {
+          // TODO: Give the user the option to play as X or O
+          let bestMove = this.getBestMove(this.history[this.stepNumber].squares, 'O', 0)
+          this.handleClick(bestMove.index)
+        }
       }
     },
     restartGame () {
@@ -94,28 +99,44 @@ export default {
       this.winner = null
     },
     undoMove () {
-      this.history.splice(this.stepNumber, 1)
-      this.stepNumber--
-      this.xIsNext = !this.xIsNext
-      this.winner = this.calculateWinner(this.history[this.stepNumber].squares)
+      // undo both moves if we're playing the computer, otherwise the user will be taking O's move
+      if (this.computer) {
+        this.history.splice(this.stepNumber - 1, 2)
+        this.stepNumber -= 2
+        this.winner = this.calculateWinner(this.history[this.stepNumber].squares, this.xIsNext ? 'X' : 'O')
+      } else {
+        this.history.splice(this.stepNumber, 1)
+        this.stepNumber--
+        this.xIsNext = !this.xIsNext
+        this.winner = this.calculateWinner(this.history[this.stepNumber].squares, this.xIsNext ? 'X' : 'O')
+      }
     },
-    calculateWinner (squares) {
+    countMoves (squares) {
+      return squares.filter((el) => { return el !== null }).length
+    },
+    calculateWinner (squares, symbol) {
+      let numOfMoves = this.countMoves(squares)
+      // if we need n number of symbols in a row, then at n-1 * 2 (players) we know we can't have a winner yet
+      if (numOfMoves <= ((this.numInRow - 1) * 2)) {
+        return null
+      }
       const lines = this.winningCombos
+      const linesLength = lines.length
       // Loop through each array in 'lines'
       // which are the winning combinations
-      for (let i = 0; i < lines.length; i++) {
+      for (let i = 0; i < linesLength; i++) {
         // one of the winning combos from the list of all winning combos
         let winningCombo = lines[i]
         let prevMatch = true
+
         // squares is the game board, an array 0-8, showing all the squares
         // null, X, or O are the options for an entry
-        // if we have something at squares[winningCombo[0]], that means we can start checking the
-        // sequence, otherwise, move on to the next combo.
-        if (squares[winningCombo[0]]) {
-          // Loop through the winning combo, and if the squares match, continue onto the next one, otherwise
-          // break out of the loop because we know it's not a winner
-          for (let j = 1; j < winningCombo.length; j++) {
-            prevMatch = squares[winningCombo[0]] === squares[winningCombo[j]]
+        // Loop through the winning combo, and if the squares match, continue onto the next one, otherwise
+        // break out of the loop because we know it's not a winner
+        let testSymbol = squares[winningCombo[0]]
+        if (testSymbol && testSymbol === symbol) { // if it doesn't match the symbol no need to check it
+          for (let j = 1; j < this.numInRow; j++) {
+            prevMatch = testSymbol === squares[winningCombo[j]]
             if (!prevMatch) {
               break
             }
@@ -123,14 +144,59 @@ export default {
           // once we finish going through the winning combo, if we have matched, return the match
           // they are a winner.
           if (prevMatch) {
-            return squares[winningCombo[0]]
+            return symbol
           }
         }
       }
-      // Otherwise if we finish everything and nothing satisfied we can return null and let them know
-      // that no one won.
-      console.log('Calculate winner end:')
-      return null
+      return (numOfMoves === this.numOfSquares) ? 'Tie' : null
+    },
+    getBestMove (board, symbol) {
+      // Get the available moves and then loop through them
+      let availableMoves = this.getAvailableMoves(board)
+      let availableMovesAndScores = []
+      let length = availableMoves.length
+      for (let i = 0; i < length; i++) {
+        // copy the array and start trying the available moves
+        let newBoard = board.slice(0)
+        newBoard[availableMoves[i]] = symbol
+        let result = this.calculateWinner(newBoard, symbol)
+        let score
+        // if there's a tie, score 0, if we have a result score 1
+        if (result === 'Tie') {
+          score = 0
+        } else if (result === symbol) {
+          score = 1
+        } else {
+          // otherwise we know there was no winner so we need to take the turn for the other person and score it negative (if it's a winner, -1 indicates we lose)
+          let otherSymbol = (symbol === 'X') ? 'O' : 'X'
+          let nextMove = this.getBestMove(newBoard, otherSymbol)
+          score = -(nextMove.score)
+        }
+        // if the score is 1 we won and don't need to continue checking
+        if (score === 1) {
+          availableMovesAndScores.push({ index: availableMoves[i], score })
+          return { index: availableMoves[i], score }
+        }
+        // go ahead and push it onto the list so that we can check it at the end
+        availableMovesAndScores.push({ index: availableMoves[i], score })
+      }
+      // once we've gone through all the moves, sort them highest to lowest, then return the first one (won't return -1 unless it's the only option)
+      availableMovesAndScores.sort((moveA, moveB) => {
+        return moveB.score - moveA.score
+      })
+      return availableMovesAndScores[0]
+    },
+
+    /**
+     * @param squares Array of moves taken, options can be X, O, or null
+     * We map the squares array, if there is a null (empty) spot we return the index, otherwise we return null
+     * then we filter out null which gives us the indices of the empty spots.
+     */
+    getAvailableMoves (squares) {
+      return squares.map((el, index) => {
+        if (el === null) return index
+        else return null
+      }).filter((res) => { return res !== null })
     },
     getWinningCombos (n, winningCombos) {
       this.horizontalWins(n, winningCombos)
