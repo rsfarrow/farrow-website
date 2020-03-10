@@ -10,7 +10,7 @@ Todos:
   - Tic-Tac-Toe side project
     - ~Port over UI~
     - ~General improvements~
-    - Improvement: Add AI to play with
+    - ~Improvement: Add AI to play with~
   - Create boxing-timer
     - ~Initial timer: Set number of rounds, length of round, length of rest~
     - ~Improvements: Create pre-defined routines, based on what you want to work on~

@@ -99,9 +99,9 @@ export default {
             { title: 'Bike Workouts', icon: 'mdi-bike', disabled: false, path: 'bike-workout-list', internal: true }
 
           ] },
-        { title: 'Github', icon: 'mdi-github-box', path: GITHUB_PROFILE, internal: false },
+        { title: 'Github', icon: 'mdi-github', path: GITHUB_PROFILE, internal: false },
         { title: 'Email', icon: 'mdi-email', path: EMAIL_LINK, internal: false },
-        { title: 'LinkedIn', icon: 'mdi-linkedin-box', path: LINKEDIN_PROFILE, internal: false },
+        { title: 'LinkedIn', icon: 'mdi-linkedin', path: LINKEDIN_PROFILE, internal: false },
         { title: 'About', icon: 'mdi-face-profile', path: 'about', internal: true }
       ],
       internalDarkMode: false

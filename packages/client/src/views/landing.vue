@@ -49,7 +49,7 @@
                      v-on="on"
                      @click="navTo(GITHUB_PROFILE, false)"
               >
-                <v-icon v-text="'mdi-github-circle'" />
+                <v-icon v-text="'mdi-github'" />
               </v-btn>
             </template>
             <span>Github Profile</span>
@@ -81,7 +81,7 @@
                      v-on="on"
                      @click="navTo(LINKEDIN_PROFILE, false)"
               >
-                <v-icon v-text="'mdi-linkedin-box'" />
+                <v-icon v-text="'mdi-linkedin'" />
               </v-btn>
             </template>
             <span>LinkedIn</span>
